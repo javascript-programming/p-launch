@@ -1,9 +1,9 @@
 pragma solidity ^0.4.18;
 
-import "./PrePension.sol";
+import "./PrePensionLib.sol";
 
 
-contract PrePension {
+contract PrePensionBase {
 
   address public owner;
 
@@ -11,8 +11,8 @@ contract PrePension {
 
   function PrePensionBase() public {
     owner = msg.sender;
-    data = PrepensionLib.Data({
-      mintedCoins : 0
+    data = PrePensionLib.Data({
+        mintedCoins : 0
       });
   }
 
