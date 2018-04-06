@@ -7,6 +7,7 @@ library PrePensionLib {
         uint balance;
         uint noOfPensions;
         uint noOfPurchases;
+        bool active;
         mapping(uint => PensionBalance) pensionBalances;
         mapping(uint => Purchase) purchases;
     }
@@ -15,12 +16,14 @@ library PrePensionLib {
         bytes32 id;
         uint balance;
         uint noOfInvoices;
+        bool active;
         mapping (uint => Invoice) invoices;
     }
 
     struct Pension {
         bytes32 id;
         uint minted;
+        bool active;
     }
 
     struct PensionBalance {
@@ -53,13 +56,13 @@ library PrePensionLib {
     }
 
     function addParticipant (Data storage self, address _participant, bytes32 _id) internal returns (Participant) {
-        self.participants[_participant] = Participant(_id, 0, 0, 0);
+        self.participants[_participant] = Participant(_id, 0, 0, 0, true);
         self.participantMapping[_id] = _participant;
         return self.participants[_participant];
     }
 
     function addPension (Data storage self, address _pension, bytes32 _id) internal returns (Pension) {
-        self.pensions[_pension] = Pension(_id, 0);
+        self.pensions[_pension] = Pension(_id, 0, true);
         self.pensionMapping[_id] = _pension;
         return self.pensions[_pension];
     }
@@ -72,7 +75,7 @@ library PrePensionLib {
     }
 
     function addSupplier (Data storage self, address _supplier, bytes32 _id) internal returns (Supplier) {
-        self.suppliers[_supplier] = Supplier(_id, 0, 0);
+        self.suppliers[_supplier] = Supplier(_id, 0, 0, true);
         self.supplierMapping[_id] = _supplier;
         return self.suppliers[_supplier];
     }

@@ -26,6 +26,67 @@ contract PrePensionBase {
     _;
   }
 
+  modifier allowedToAddParticipant (bytes32 _participant) {
+
+    if (!data.pensions[msg.sender].active)
+      revert();
+    _;
+  }
+
+  modifier participantExist (bytes32 _participant) {
+
+    if (!data.participants[data.participantMapping[_participant]].active) {
+      revert();
+    }
+    _;
+  }
+
+  modifier participantNotExist (bytes32 _participant) {
+
+    if (data.participants[data.participantMapping[_participant]].active) {
+      revert();
+    }
+    _;
+  }
+
+  modifier pensionExist (bytes32 _pension) {
+
+    if (!data.pensions[data.pensionMapping[_pension]].active) {
+      revert();
+    }
+    _;
+  }
+
+  modifier pensionNotExist (bytes32 _pension) {
+
+    if (data.pensions[data.pensionMapping[_pension]].active) {
+      revert();
+    }
+    _;
+  }
+
+  modifier supplierExist (bytes32 _supplier) {
+
+    if (!data.suppliers[data.supplierMapping[_supplier]].active) {
+      revert();
+    }
+    _;
+  }
+
+  modifier supplierNotExist (bytes32 _supplier) {
+
+    if (!data.suppliers[data.supplierMapping[_supplier]].active) {
+      revert();
+    }
+    _;
+  }
+
+  modifier supplierIsValid (bytes32 _supplier) {
+    if (!data.pensions[msg.sender].active)
+      revert();
+    _;
+  }
+
   function () public {
     revert();
   }
