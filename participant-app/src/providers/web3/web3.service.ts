@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
 import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 
 const Web3 = require('web3');
 
@@ -16,7 +14,7 @@ export class Web3Service {
   	this.checkAndInstantiateWeb3();
   }
 
-  checkAndInstantiateWeb3 = () => {
+  private checkAndInstantiateWeb3 = () => {
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     if (typeof window.web3 !== 'undefined') {
       console.warn(
@@ -34,6 +32,10 @@ export class Web3Service {
       );
     }
   };
+
+  init(){
+    // @Terence, do your magic
+  }
 
   getAccounts(): Observable<any>{
   	return Observable.create(observer => {

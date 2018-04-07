@@ -14,5 +14,37 @@
 
 
 <ion-content padding>
+  Age:
+  <ion-item>
+    <ion-range min="55"
+               max="67"
+               (ionChange)="changeAge()"
+               [(ngModel)]="pensionServiceProvider.age"
+               color="secondary">
+      <ion-label range-left>55</ion-label>
+      <ion-label range-right>67</ion-label>
+    </ion-range>
+  </ion-item>
+  <br />
+  <br /> Lumpsum
+  <ion-item>
+    <ion-range min="0"
+               pin="true"
+               max="{{pensionServiceProvider.maxPossibleLumpsum}}"
+               (ionChange)="changeLumpsum()"
+               [(ngModel)]="lumpsum"
+               color="secondary">
+      <ion-label range-left>&euro;0</ion-label>
+      <ion-label range-right>&euro;{{pensionServiceProvider.maxPossibleLumpsum}}</ion-label>
+    </ion-range>
+  </ion-item>
+  <br />
+  <br />
 
+
+  <br /> lumpsum: &euro;{{lumpsum}}
+  <br /> current total pension amount: &euro;{{pensionServiceProvider.currentTotalPensionAmount}}
+  <br /> new total pension amount: &euro;{{pensionServiceProvider.newTotalPensionAmount}}
+  <br /> your new entitlement at 67 per year: &euro;{{pensionServiceProvider.newEntitlementPerYear}}
+  <br /> your new entitlement at 67 per month: &euro;{{pensionServiceProvider.newEntitlementPerMonth}}
 </ion-content>
