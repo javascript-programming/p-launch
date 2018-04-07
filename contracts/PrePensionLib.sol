@@ -22,8 +22,8 @@ library PrePensionLib {
 
     struct Pension {
         bytes32 id;
-        uint minted;
         bool active;
+        mapping (bytes32 => uint) minted;
     }
 
     struct PensionBalance {
@@ -62,7 +62,7 @@ library PrePensionLib {
     }
 
     function addPension (Data storage self, address _pension, bytes32 _id) internal returns (Pension) {
-        self.pensions[_pension] = Pension(_id, 0, true);
+        self.pensions[_pension] = Pension(_id, true);
         self.pensionMapping[_id] = _pension;
         return self.pensions[_pension];
     }
@@ -94,6 +94,15 @@ library PrePensionLib {
 
         uint newCoins = (_balance - previousBalance) / 10;
         participant.balance += newCoins;
+
+        Pension storage pension = self.pensions[self.pensionMapping[_pension]];
+
+        if (pension.minted[_participant] == 0) {
+          pension.minted[_participant] = 0;
+        }
+
+        pension.minted[_participant] += newCoins;
+
         return newCoins;
     }
 

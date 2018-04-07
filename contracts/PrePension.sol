@@ -41,7 +41,6 @@ contract PrePension is PrePensionBase {
 
   function getPension (bytes32 _id) public view returns (
     bytes32 id,
-    uint minted,
     bool active
   )  {
 
@@ -49,7 +48,6 @@ contract PrePension is PrePensionBase {
 
     return (
       id = pension.id,
-      minted = pension.minted,
       active = pension.active
     );
   }
