@@ -44,8 +44,7 @@ contract('PrePension', function(accounts) {
     }).then(function (supplier) {
       assert.equal(web3.toUtf8(supplier[0]), 'Hanze');
       assert.equal(supplier[1].toNumber(), 0);
-      assert.equal(supplier[2].toNumber(), 0);
-      assert.equal(supplier[3], true);
+      assert.equal(supplier[2], true);
       return meta.getNumberOfSuppliers();
     }).then(function (no) {
       assert.equal(no.toNumber(), 1);
