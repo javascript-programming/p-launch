@@ -4,6 +4,10 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
+import { NativeAudio } from '@ionic-native/native-audio';
+
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { TestPage } from '../pages/test/test';
@@ -30,6 +34,8 @@ import { MockProvider } from '../providers/mock/mock.provider';
   providers: [
     StatusBar,
     SplashScreen,
+    SmartAudioProvider,
+    NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Web3Service,
     MockProvider

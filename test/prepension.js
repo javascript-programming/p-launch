@@ -46,7 +46,13 @@ contract('PrePension', function(accounts) {
       assert.equal(supplier[1].toNumber(), 0);
       assert.equal(supplier[2].toNumber(), 0);
       assert.equal(supplier[3], true);
-    });
+      return meta.getNumberOfSuppliers();
+    }).then(function (no) {
+      assert.equal(no.toNumber(), 1);
+      return meta.getSupplierById(1);
+    }).then(function (supplier) {
+      assert.equal(web3.toUtf8(supplier[0]), 'Hanze');
+    }) ;
   });
 
   it("Mint", function () {
@@ -62,6 +68,37 @@ contract('PrePension', function(accounts) {
       assert.equal(web3.toUtf8(args.pension), "APG");
       assert.equal(args.coins.toNumber(), 4000);
       assert.equal(args.balance.toNumber(), 40000);
+      return meta.getMintedForParticipant("APG", "Terence");
+    }).then(function (minted) {
+      assert.equal(minted.toNumber(), 4000);
+      return meta.getPensionBalance("Terence", "APG");
+    }).then(function (balance) {
+      assert.equal(balance.toNumber(), 40000);
+      return meta.getParticipantBalance('Terence');
+    }).then(function (balance) {
+      assert.equal(balance.toNumber(), 4000);
+      return meta.addPension(accounts[4], "TKP");
+    }).then(function (){
+      return meta.mint("TKP", "Terence", 60000, { from : accounts[4] });
+    }).then(function (transaction) {
+      var args = transaction.logs[0].args;
+      assert.equal(web3.toUtf8(args.participant), "Terence");
+      assert.equal(web3.toUtf8(args.pension), "TKP");
+      assert.equal(args.coins.toNumber(), 6000);
+      assert.equal(args.balance.toNumber(), 60000);
+      return meta.getMintedForParticipant("TKP", "Terence");
+   }).then(function (minted) {
+      assert.equal(minted.toNumber(), 6000);
+      return meta.getParticipantBalance('Terence');
+    }).then(function (balance) {
+      assert.equal(balance.toNumber(), 10000);
+      return meta.getNumberOfPensions("Terence");
+    }).then(function (no) {
+      assert.equal(no.toNumber(), 2);
+      return meta.getParticipantPension("Terence", 2);
+    }).then(function (pension) {
+      assert.equal(web3.toUtf8(pension[0]), "TKP");
+      assert.equal(pension[1].toNumber(), 60000);
     });
   });
 
