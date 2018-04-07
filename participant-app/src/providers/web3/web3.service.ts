@@ -52,4 +52,7 @@ export class Web3Service {
   	})
   }
 
+  // get Participant =>
+  // 1) Creat fake participant => iD => pension.nu.001
+  // 2) getParticipant('pension.nu.001')
 }
