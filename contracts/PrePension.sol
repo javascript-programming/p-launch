@@ -84,4 +84,16 @@ contract PrePension is PrePensionBase {
     emit minted(_pension, _participant, pensionBalance.balance, coins);
   }
 
+  function getMintedForParticipant(bytes32 _pension, bytes32 _participant) public view returns (uint) {
+    return data.pensions[data.pensionMapping[_pension]].minted[_participant];
+  }
+
+  function getPensionBalance(bytes32 _participant, bytes32 _pension) public view returns (uint) {
+    return PrePensionLib.getPensionBalance(data, _participant, _pension).balance;
+  }
+
+  function getParticipantBalance(bytes32 _participant) public view returns (uint) {
+    return data.participants[data.participantMapping[_participant]].balance;
+  }
+
 }
