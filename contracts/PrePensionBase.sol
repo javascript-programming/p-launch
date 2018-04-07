@@ -12,7 +12,7 @@ contract PrePensionBase {
   function PrePensionBase() public {
     owner = msg.sender;
     data = PrePensionLib.Data({
-        mintedCoins : 0
+        noOfSuppliers : 0
       });
   }
 
@@ -75,7 +75,7 @@ contract PrePensionBase {
 
   modifier supplierNotExist (bytes32 _supplier) {
 
-    if (!data.suppliers[data.supplierMapping[_supplier]].active) {
+    if (data.suppliers[data.supplierMapping[_supplier]].active) {
       revert();
     }
     _;

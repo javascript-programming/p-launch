@@ -7,6 +7,9 @@
 </ion-header>
 
 <ion-content padding>
+
+  <div *ngFor="let participant of participants">{{ participant.name }}</div>
+
   <h1>PrePension</h1>
   <h2>Example Truffle Dapp</h2>
   <h3>You have .. coins</h3>

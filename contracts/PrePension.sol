@@ -41,7 +41,6 @@ contract PrePension is PrePensionBase {
 
   function getPension (bytes32 _id) public view returns (
     bytes32 id,
-    uint minted,
     bool active
   )  {
 
@@ -49,7 +48,6 @@ contract PrePension is PrePensionBase {
 
     return (
       id = pension.id,
-      minted = pension.minted,
       active = pension.active
     );
   }
@@ -78,12 +76,49 @@ contract PrePension is PrePensionBase {
     );
   }
 
-  event minted (bytes32 _pension, bytes32 _participant, uint newBalans, uint coins);
+  function getNumberOfSuppliers() public view returns (uint) {
+    return data.noOfSuppliers;
+  }
+
+  function getSupplierById(uint _id) public view returns (
+    bytes32 id,
+    uint balance,
+    uint noOfInvoices,
+    bool active
+    ) {
+      return getSupplier(data.supplierIterator[_id]);
+    }
+
+  event minted (bytes32 pension, bytes32 participant, uint balance, uint coins);
 
   function mint (bytes32 _pension, bytes32 _participant, uint _balance) public pensionExist(_pension) participantExist(_participant) {
     uint coins = PrePensionLib.mint(data, _pension, _participant, _balance);
-    PrePensionLib.PensionBalance memory pensionBalance = PrePensionLib.getPensionBalance(data, _pension, _participant);
+    PrePensionLib.PensionBalance memory pensionBalance = PrePensionLib.getPensionBalance(data, _participant, _pension);
     emit minted(_pension, _participant, pensionBalance.balance, coins);
+  }
+
+  function getMintedForParticipant(bytes32 _pension, bytes32 _participant) public view returns (uint) {
+    return data.pensions[data.pensionMapping[_pension]].minted[_participant];
+  }
+
+  function getPensionBalance(bytes32 _participant, bytes32 _pension) public view returns (uint) {
+    return PrePensionLib.getPensionBalance(data, _participant, _pension).balance;
+  }
+
+  function getParticipantBalance(bytes32 _participant) public view returns (uint) {
+    return data.participants[data.participantMapping[_participant]].balance;
+  }
+
+  function getNumberOfPensions(bytes32 _participant) public view returns (uint) {
+    return data.participants[data.participantMapping[_participant]].noOfPensions;
+  }
+
+  function getParticipantPension (bytes32 _participant, uint id) public view returns (bytes32 pension, uint balance) {
+    PrePensionLib.PensionBalance storage pensionBalance = data.participants[data.participantMapping[_participant]].pensionBalances[id];
+    return (
+      pension = pensionBalance.pension,
+      balance = pensionBalance.balance
+    );
   }
 
 }

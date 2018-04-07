@@ -6,6 +6,8 @@ import contract from 'truffle-contract';
 
 import { Web3Service } from '../../providers/web3/web3.service';
 
+import { MockProvider } from '../../providers/mock/mock.provider';
+
 @Component({
   selector: 'page-test',
   templateUrl: 'test.html'
@@ -17,16 +19,33 @@ export class TestPage {
     private account;
     status;
     input: { amount: string, pension: string } = { amount: '', pension: '' };
+    participants: any;
+    participant: any;
+    suppliers: any;
 
   constructor(public navCtrl: NavController,
-              private web3Service: Web3Service) {
-
+              private web3Service: Web3Service,
+              private mockProvider: MockProvider) {
+        // this.start()
+      this.loadMockInfo();
   }
+
+    loadMockInfo () {
+      this.participants = this.mockProvider.getAllParticipants();
+      this.suppliers = this.mockProvider.getAllSuppliers();
+
+      //select participant number 1
+      this.participant = this.mockProvider.getParticipant(1);
+    }
 
     start () {
 
+        this.setStatus('Start')
+
         // Bootstrap the MetaCoin abstraction for Use.
         this.PrePension.setProvider(this.web3Service.web3.currentProvider)
+
+        console.log(this.PrePension)
 
         this.PrePension.deployed().then(instance => {
             this.PrePensionContract = instance
@@ -51,6 +70,8 @@ export class TestPage {
                     return
                 }
             })
+        }, error => {
+            console.error(error)
         })
     }
 
