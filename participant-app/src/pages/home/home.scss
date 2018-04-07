@@ -1,3 +1,51 @@
 page-home {
+  .bg{
+    background-image: url('/assets/img/bg-1.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
+  ion-card{
+    background:rgba(255,255,255,0.5);
+  }
+  ion-card-header {
+    background: transparent;
+  }
+  ion-card-content{
+    background:rgba(255,255,255,0.5);
+  }
+  .transparant{
+    background: transparent;
+  }
+  .semitransparant{
+    background:rgba(0,0,0,0.3);
+  }
+  .bgblue{
+    background-color: #26BECD;
+  }
+  .bgred{
+    background-color: #EE4757;
+  }
+  .bgorange{
+    background-color: #F68E2F;
+  }
+
+  .white{
+    color: white;
+  }
+  .small{
+    font-size: 12px;
+  }
+  .medium{
+    font-size: 16px;
+  }
+  .big{
+    font-size: 20px;
+  }
+  .pullleft{
+    float:left;
+  }
+  .pullright{
+    float:right;
+  }
 }

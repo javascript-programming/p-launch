@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { MockProvider } from '../../providers/mock/mock.provider';
 import { PensionServiceProvider } from '../../providers/pension-service/pension-service';
 import { SmartAudioProvider } from '../../providers/smart-audio/smart-audio';
 
@@ -10,25 +10,30 @@ import { SmartAudioProvider } from '../../providers/smart-audio/smart-audio';
   templateUrl: 'home.html',
 })
 export class HomePage {
-  private age: number;
+  private showYearly: boolean;
   private lumpsum: number;
+  private participant: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public mockProvider: MockProvider,
     public pensionServiceProvider: PensionServiceProvider,
     public smartAudioProvider: SmartAudioProvider
   ) {
-    this.age = 55;
     this.lumpsum = 0;
+    this.participant = this.mockProvider.getParticipant(1);
+    this.showYearly = false;
+
+    this.changeLumpsum();
   }
 
-  changeAge() {
-    this.pensionServiceProvider.calculate(this.lumpsum);
+  changeLumpsum(){
+    this.pensionServiceProvider.calculate(this.participant, this.lumpsum);
   }
-  changeLumpsum() {
-    this.pensionServiceProvider.calculate(this.lumpsum);
-    console.log(this.lumpsum);
+
+  gotoOptionsPage(){
+      this.navCtrl.push("OptionsPage");
   }
 
   ionViewDidLoad() {
@@ -42,5 +47,9 @@ export class HomePage {
     // setTimeout(() => {
     //   this.viewCtrl.dismiss();
     // }, 4000);
+  }
+
+  continue() {
+    this.navCtrl.push('OptionsPage', {});
   }
 }

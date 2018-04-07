@@ -11,7 +11,6 @@ import { Web3Service } from '../providers/web3/web3.service';
   templateUrl: 'app.html',
 })
 export class MyApp {
-  // rootPage:any = TestPage;
   rootPage: any = HomePage;
 
   constructor(

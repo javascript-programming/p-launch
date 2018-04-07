@@ -3993,11 +3993,11 @@ trim-newlines@^1.0.0:
   dependencies:
     glob "^6.0.4"
 
-truffle-blockchain-utils@^0.0.4:
+truffle-blockchain-utils@^0.0.4, truffle-blockchain-utils@~0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/truffle-blockchain-utils/-/truffle-blockchain-utils-0.0.4.tgz#e31a346db61775c80ccd6f632de5e72f97f20ea5"
 
-truffle-contract-schema@^2.0.0:
+truffle-contract-schema@^2.0.0, truffle-contract-schema@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/truffle-contract-schema/-/truffle-contract-schema-2.0.0.tgz#535378c0b6a7f58011ea8d84f57771771cb45163"
   dependencies:
