@@ -8,7 +8,6 @@
     "clean": "ionic-app-scripts clean",
     "lint": "ionic-app-scripts lint",
     "lint:tslint": "tslint --project ./tsconfig.json --fix",
-
     "format": "prettier src/**/**/*.{js,jsx,ts,tsx,css,scss,md} --write",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
@@ -39,6 +38,8 @@
     "rxjs": "5.5.2",
     "sw-toolbox": "3.6.0",
     "truffle-contract": "~3.0.4",
+    "truffle-contract-schema": "~2.0.0",
+    "truffle-blockchain-utils": "~0.0.4",
     "web3": "~0.20.1",
     "zone.js": "0.8.18"
   },
@@ -61,6 +62,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-nativeaudio": {}
     },
-    "platforms": ["ios"]
+    "platforms": [
+      "ios"
+    ]
   }
 }

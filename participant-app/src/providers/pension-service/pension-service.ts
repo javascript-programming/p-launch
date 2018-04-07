@@ -8,19 +8,18 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class PensionServiceProvider {
+  age: number;
+  sex: string;
 
-  public age: number;
-  public sex: string;
+  currentEntitlementPerYear: number;
+  currentEntitlementPerMonth: number;
+  currentTotalPensionAmount: number;
+  newEntitlementPerYear: number;
+  newEntitlementPerMonth: number;
+  newTotalPensionAmount: number;
 
-  public currentEntitlementPerYear: number;
-  public currentEntitlementPerMonth: number;
-  public currentTotalPensionAmount:number;
-  public newEntitlementPerYear: number;
-  public newEntitlementPerMonth: number;
-  public newTotalPensionAmount: number;
-  
-  public maxPossibleLumpsum: number;
-  public factor: number;
+  maxPossibleLumpsum: number;
+  factor: number;
 
   constructor() {
     console.log('Hello PensionServiceProvider Provider');
@@ -33,13 +32,14 @@ export class PensionServiceProvider {
     this.calculate(0);
   }
 
-  calculate(lumpsum){
-    const perc = 1.05,
-        max = 67;
-    this.newTotalPensionAmount = Math.round(this.currentTotalPensionAmount - lumpsum);
+  calculate(lumpsum) {
+    const PERCENTAGE = 1.05;
+    const MAX = 67;
+    this.newTotalPensionAmount = Math.round(
+      this.currentTotalPensionAmount - lumpsum * Math.pow(PERCENTAGE, MAX - this.age)
+    );
 
     this.newEntitlementPerYear = Math.round(this.newTotalPensionAmount / this.factor);
     this.newEntitlementPerMonth = Math.round(this.newEntitlementPerYear / 12);
   }
-
 }
