@@ -31,6 +31,10 @@ export class HomePage {
     console.log(this.lumpsum);
   }
 
+  gotoOptionsPage(){
+      this.navCtrl.push("OptionsPage");
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }

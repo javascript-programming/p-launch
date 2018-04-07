@@ -36,7 +36,7 @@ export class PensionServiceProvider {
   calculate(lumpsum){
     const perc = 1.05,
         max = 67;
-    this.newTotalPensionAmount = Math.round(this.currentTotalPensionAmount - (lumpsum * Math.pow(perc, (max - this.age))));
+    this.newTotalPensionAmount = Math.round(this.currentTotalPensionAmount - lumpsum);
 
     this.newEntitlementPerYear = Math.round(this.newTotalPensionAmount / this.factor);
     this.newEntitlementPerMonth = Math.round(this.newEntitlementPerYear / 12);
