@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SmartAudioProvider } from '../../providers/smart-audio/smart-audio';
+import { PensionServiceProvider } from '../../providers/pension-service/pension-service';
 
 @IonicPage()
 @Component({
@@ -9,12 +10,25 @@ import { SmartAudioProvider } from '../../providers/smart-audio/smart-audio';
 })
 export class HomePage {
 
-  private personalBudget;
+  private age: number;
+  private lumpsum: number;
+
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
+      public pensionServiceProvider: PensionServiceProvider,
       public smartAudioProvider: SmartAudioProvider
   ) {
+    this.age = 55;
+    this.lumpsum = 0;
+  }
+
+  changeAge(){
+    this.pensionServiceProvider.calculate(this.lumpsum);
+  }
+  changeLumpsum(){
+    this.pensionServiceProvider.calculate(this.lumpsum);
+    console.log(this.lumpsum);
   }
 
   ionViewDidLoad() {

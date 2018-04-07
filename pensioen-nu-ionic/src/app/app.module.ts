@@ -13,6 +13,7 @@ import { HomePage } from '../pages/home/home';
 import { TestPage } from '../pages/test/test';
 
 import { Web3Service } from '../providers/web3/web3.service';
+import { PensionServiceProvider } from '../providers/pension-service/pension-service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { Web3Service } from '../providers/web3/web3.service';
     SmartAudioProvider,
     NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-      Web3Service
+      Web3Service,
+    PensionServiceProvider
   ]
 })
 export class AppModule {}
