@@ -11,15 +11,18 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { TestPage } from '../pages/test/test';
+import { OptionsPage } from '../pages/options/options';
 
 import { Web3Service } from '../providers/web3/web3.service';
 import { MockProvider } from '../providers/mock/mock.provider';
+import {OptionsProvider} from "../providers/options/options.provider";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    TestPage
+    TestPage,
+      OptionsPage
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { MockProvider } from '../providers/mock/mock.provider';
   entryComponents: [
     MyApp,
     HomePage,
-    TestPage
+    TestPage,
+      OptionsPage
   ],
   providers: [
     StatusBar,
@@ -38,7 +42,8 @@ import { MockProvider } from '../providers/mock/mock.provider';
     NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Web3Service,
-    MockProvider
+    MockProvider,
+      OptionsProvider
   ]
 })
 export class AppModule {}
