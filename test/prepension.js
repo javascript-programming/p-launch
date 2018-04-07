@@ -86,6 +86,13 @@ contract('PrePension', function(accounts) {
       return meta.getParticipantBalance('Terence');
     }).then(function (balance) {
       assert.equal(balance.toNumber(), 10000);
+      return meta.getNumberOfPensions("Terence");
+    }).then(function (no) {
+      assert.equal(no.toNumber(), 2);
+      return meta.getParticipantPension("Terence", 2);
+    }).then(function (pension) {
+      assert.equal(web3.toUtf8(pension[0]), "TKP");
+      assert.equal(pension[1].toNumber(), 60000);
     });
   });
 

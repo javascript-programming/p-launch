@@ -96,4 +96,16 @@ contract PrePension is PrePensionBase {
     return data.participants[data.participantMapping[_participant]].balance;
   }
 
+  function getNumberOfPensions(bytes32 _participant) public view returns (uint) {
+    return data.participants[data.participantMapping[_participant]].noOfPensions;
+  }
+
+  function getParticipantPension (bytes32 _participant, uint id) public view returns (bytes32 pension, uint balance) {
+    PrePensionLib.PensionBalance storage pensionBalance = data.participants[data.participantMapping[_participant]].pensionBalances[id];
+    return (
+      pension = pensionBalance.pension,
+      balance = pensionBalance.balance
+    );
+  }
+
 }
