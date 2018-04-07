@@ -5,6 +5,7 @@ import { Platform } from 'ionic-angular';
 import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
 
 import { HomePage } from '../pages/home/home';
+import { Web3Service } from '../providers/web3/web3.service';
 
 @Component({
   templateUrl: 'app.html',
@@ -17,7 +18,8 @@ export class MyApp {
     platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    smartAudioProvider: SmartAudioProvider
+    smartAudioProvider: SmartAudioProvider,
+    private web3Service: Web3Service
   ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -25,6 +27,9 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       smartAudioProvider.preload('splash', 'assets/audio/splash.mp3');
+
+      // Call service to load blockchain accounts
+      this.web3Service.init();
     });
   }
 }

@@ -61,7 +61,6 @@ contract PrePension is PrePensionBase {
 
   function getSupplier (bytes32 _id) public view returns (
     bytes32 id,
-    uint balance,
     uint noOfInvoices,
     bool active
   )  {
@@ -70,7 +69,6 @@ contract PrePension is PrePensionBase {
 
     return (
       id = supplier.id,
-      balance = supplier.balance,
       noOfInvoices = supplier.noOfInvoices,
       active = supplier.active
     );
@@ -82,7 +80,6 @@ contract PrePension is PrePensionBase {
 
   function getSupplierById(uint _id) public view returns (
     bytes32 id,
-    uint balance,
     uint noOfInvoices,
     bool active
     ) {
@@ -119,6 +116,17 @@ contract PrePension is PrePensionBase {
       pension = pensionBalance.pension,
       balance = pensionBalance.balance
     );
+  }
+
+  event purchased (bytes32 _participant, bytes32 _supplier, uint amount);
+
+  function purchase (bytes32 _participant, bytes32 _supplier, uint _amount) public
+            participantExist(_participant)
+            supplierExist(_supplier)
+            sufficientBalance (_participant, _amount) {
+
+      PrePensionLib.purchase(data, _participant, _supplier, _amount);
+      emit purchased(_participant, _supplier, _amount);
   }
 
 }
