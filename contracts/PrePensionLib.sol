@@ -68,7 +68,7 @@ library PrePensionLib {
     }
 
     function addPensionBalance (Data storage self, bytes32 _participant, bytes32 _pension, uint _balance) internal returns (PensionBalance) {
-        var participant = self.participants[self.participantMapping[_participant]];
+        Participant storage participant = self.participants[self.participantMapping[_participant]];
         participant.noOfPensions++;
         participant.pensionBalances[participant.noOfPensions] = PensionBalance(_pension, _balance);
         return participant.pensionBalances[participant.noOfPensions];
@@ -80,22 +80,30 @@ library PrePensionLib {
         return self.suppliers[_supplier];
     }
 
-    function mint (Data storage self, bytes32 _pension, bytes32 _participant, uint _balance) internal {
-        var participant = self.participants[self.participantMapping[_participant]];
-        var pensionBalanceId = getPensionBalanceId(self, _participant, _pension);
+    function mint (Data storage self, bytes32 _pension, bytes32 _participant, uint _balance) internal returns (uint) {
+        Participant storage participant = self.participants[self.participantMapping[_participant]];
+        uint pensionBalanceId = getPensionBalanceId(self, _participant, _pension);
         uint previousBalance = 0;
 
         if (pensionBalanceId != 0) {
             previousBalance = participant.pensionBalances[pensionBalanceId].balance;
+            participant.pensionBalances[pensionBalanceId].balance = _balance;
         } else {
             addPensionBalance(self, _participant, _pension, _balance);
         }
 
-        participant.balance += (_balance - previousBalance) / 10;
+        uint newCoins = (_balance - previousBalance) / 10;
+        participant.balance += newCoins;
+        return newCoins;
+    }
+
+    function getPensionBalance(Data storage self, bytes32 _participant, bytes32 _pension) view internal returns (PensionBalance) {
+        uint id = getPensionBalanceId(self, _participant, _pension);
+        return self.participants[self.participantMapping[_participant]].pensionBalances[id];
     }
 
     function getPensionBalanceId (Data storage self, bytes32 _participant, bytes32 _pension) view internal returns(uint) {
-        var participant = self.participants[self.participantMapping[_participant]];
+        Participant storage participant = self.participants[self.participantMapping[_participant]];
 
         for (uint i = 1; i <= participant.noOfPensions; i++) {
             if (participant.pensionBalances[i].pension == _pension) {

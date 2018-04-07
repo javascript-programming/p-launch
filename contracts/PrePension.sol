@@ -14,7 +14,7 @@ contract PrePension is PrePensionBase {
 
   function addParticipant (address _participant, bytes32 _id) public participantNotExist(_id) allowedToAddParticipant(_id) {
       PrePensionLib.addParticipant(data, _participant, _id);
-      participantAdded(_id);
+      emit participantAdded(_id);
   }
 
   function getParticipant (bytes32 _id) public view returns (
@@ -23,7 +23,7 @@ contract PrePension is PrePensionBase {
     bool active
   )  {
 
-    var participant = data.participants[data.participantMapping[_id]];
+    PrePensionLib.Participant storage participant = data.participants[data.participantMapping[_id]];
 
     return (
       id = participant.id,
@@ -36,7 +36,7 @@ contract PrePension is PrePensionBase {
 
   function addPension (address _pension, bytes32 _id) public pensionNotExist(_id) {
     PrePensionLib.addPension(data, _pension, _id);
-    participantAdded(_id);
+    emit participantAdded(_id);
   }
 
   function getPension (bytes32 _id) public view returns (
@@ -45,7 +45,7 @@ contract PrePension is PrePensionBase {
     bool active
   )  {
 
-    var pension = data.pensions[data.pensionMapping[_id]];
+    PrePensionLib.Pension storage pension = data.pensions[data.pensionMapping[_id]];
 
     return (
       id = pension.id,
@@ -58,7 +58,7 @@ contract PrePension is PrePensionBase {
 
   function addSupplier (address _supplier, bytes32 _id) public supplierNotExist(_id) supplierIsValid(_id) {
     PrePensionLib.addSupplier(data, _supplier, _id);
-    supplierAdded(_id);
+    emit supplierAdded(_id);
   }
 
   function getSupplier (bytes32 _id) public view returns (
@@ -68,7 +68,7 @@ contract PrePension is PrePensionBase {
     bool active
   )  {
 
-    var supplier = data.suppliers[data.supplierMapping[_id]];
+    PrePensionLib.Supplier storage supplier = data.suppliers[data.supplierMapping[_id]];
 
     return (
       id = supplier.id,
@@ -76,6 +76,14 @@ contract PrePension is PrePensionBase {
       noOfInvoices = supplier.noOfInvoices,
       active = supplier.active
     );
+  }
+
+  event minted (bytes32 _pension, bytes32 _participant, uint newBalans, uint coins);
+
+  function mint (bytes32 _pension, bytes32 _participant, uint _balance) public pensionExist(_pension) participantExist(_participant) {
+    uint coins = PrePensionLib.mint(data, _pension, _participant, _balance);
+    PrePensionLib.PensionBalance memory pensionBalance = PrePensionLib.getPensionBalance(data, _pension, _participant);
+    emit minted(_pension, _participant, pensionBalance.balance, coins);
   }
 
 }
