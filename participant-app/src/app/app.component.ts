@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
@@ -19,6 +19,7 @@ export class MyApp {
     statusBar: StatusBar,
     splashScreen: SplashScreen,
     smartAudioProvider: SmartAudioProvider,
+    private ngZone: NgZone,
     private web3Service: Web3Service
   ) {
     platform.ready().then(() => {
