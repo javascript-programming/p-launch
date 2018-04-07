@@ -20,6 +20,8 @@ git clone https://github.com/Blockchaingers/pensioen.nu.git
 * [Ganache](http://truffleframework.com/ganache/)
   > Running Test blockchain
 
+## Smart Contracts
+
 ### Install
 
 #### 1) Install [TruffleFramework](http://truffleframework.com/)
@@ -40,6 +42,14 @@ yarn install
 
 Download: http://truffleframework.com/ganache/
 
+##### OR
+
+Use the Ganache-CLI
+
+```console
+npm install -g ganache-cli
+```
+
 ## Build
 
 Do this everytime a contract is changed.
@@ -54,18 +64,34 @@ truffle compile
 
 N.B. Have `Ganache` running before deploying
 
+* Either by program or cli
+
 ```
 truffle deploy
 # user --reset if no changes are deployed
 truffle deploy --reset
 ```
 
-## Run app
-
-Run the webapp
+OR Combine it:
 
 ```console
-yarn dev
+yarn truffle:compile
+```
+
+## Pension APP (Ionic)
+
+### Install
+
+1.  Go to `applicant-client`
+
+```console
+$ applicant-client/yarn install
+```
+
+### Start App
+
+```console
+yarn ionic:build
 ```
 
 ## Test
