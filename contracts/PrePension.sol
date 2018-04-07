@@ -76,6 +76,19 @@ contract PrePension is PrePensionBase {
     );
   }
 
+  function getNumberOfSuppliers() public view returns (uint) {
+    return data.noOfSuppliers;
+  }
+
+  function getSupplierById(uint _id) public view returns (
+    bytes32 id,
+    uint balance,
+    uint noOfInvoices,
+    bool active
+    ) {
+      return getSupplier(data.supplierIterator[_id]);
+    }
+
   event minted (bytes32 pension, bytes32 participant, uint balance, uint coins);
 
   function mint (bytes32 _pension, bytes32 _participant, uint _balance) public pensionExist(_pension) participantExist(_participant) {

@@ -46,7 +46,13 @@ contract('PrePension', function(accounts) {
       assert.equal(supplier[1].toNumber(), 0);
       assert.equal(supplier[2].toNumber(), 0);
       assert.equal(supplier[3], true);
-    });
+      return meta.getNumberOfSuppliers();
+    }).then(function (no) {
+      assert.equal(no.toNumber(), 1);
+      return meta.getSupplierById(1);
+    }).then(function (supplier) {
+      assert.equal(web3.toUtf8(supplier[0]), 'Hanze');
+    }) ;
   });
 
   it("Mint", function () {
