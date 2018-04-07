@@ -8,7 +8,6 @@
     "clean": "ionic-app-scripts clean",
     "lint": "ionic-app-scripts lint",
     "lint:tslint": "tslint --project ./tsconfig.json --fix",
-
     "format": "prettier src/**/**/*.{js,jsx,ts,tsx,css,scss,md} --write",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
@@ -61,6 +60,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-nativeaudio": {}
     },
-    "platforms": ["ios"]
+    "platforms": [
+      "ios"
+    ]
   }
 }
