@@ -26,6 +26,7 @@ window.App = {
 
     PrePension.deployed().then(instance => {
       me.PrePensionContract = instance
+      debugger
 
       me.setStatus('PrePension contract set')
 
