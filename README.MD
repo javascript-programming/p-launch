@@ -82,10 +82,10 @@ yarn truffle:compile
 
 ### Install
 
-1.  Go to `applicant-client`
+1.  Go to `participant-app`
 
 ```console
-$ applicant-client/yarn install
+$ participant-app/yarn install
 ```
 
 ### Start App
