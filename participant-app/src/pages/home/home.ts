@@ -34,7 +34,6 @@ export class HomePage {
   }
   changeLumpsum(){
     this.pensionServiceProvider.calculate(this.lumpsum);
-    console.log(this.lumpsum);
   }
 
   ionViewDidLoad() {
