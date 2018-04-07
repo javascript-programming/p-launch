@@ -1,5 +1,6 @@
-import {Injectable, NgZone} from '@angular/core';
 import 'rxjs/add/operator/map';
+
+import { Injectable } from '@angular/core';
 import Web3 from 'web3';
 
 declare let window: any;
