@@ -1,8 +1,13 @@
-var ConvertLib = artifacts.require("./ConvertLib.sol");
-var MetaCoin = artifacts.require("./MetaCoin.sol");
+var PrePensionLib = artifacts.require('./PrePensionLib.sol');
+var PrePensionBase = artifacts.require('./PrePensionBase');
+var PrePension = artifacts.require('./PrePension');
 
 module.exports = function(deployer) {
-  deployer.deploy(ConvertLib);
-  deployer.link(ConvertLib, MetaCoin);
-  deployer.deploy(MetaCoin);
+
+  deployer.deploy(PrePensionLib);
+  deployer.link(PrePensionLib, PrePensionBase);
+  deployer.deploy(PrePensionBase);
+  deployer.deploy(PrePension);
+
+
 };
