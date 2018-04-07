@@ -9,22 +9,20 @@ import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
 
 import { HomePage } from '../pages/home/home';
 import { TestPage } from '../pages/test/test';
-<<<<<<< HEAD:participant-app/src/app/app.module.ts
 import { OptionsPage } from '../pages/options/options';
-=======
 import { MyApp } from './app.component';
->>>>>>> b2ff13ced5efdd487ba56205d0fc384f9060a007:participant-app/src/app/app.module.ts
 
+import { PensionServiceProvider } from '../providers/pension-service/pension-service';
 import { MockProvider } from '../providers/mock/mock.provider';
-<<<<<<< HEAD:participant-app/src/app/app.module.ts
 import {OptionsProvider} from "../providers/options/options.provider";
+import { Web3Service } from '../providers/web3/web3.service';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     TestPage,
-      OptionsPage
+    OptionsPage
   ],
   imports: [
     BrowserModule,
@@ -35,17 +33,8 @@ import {OptionsProvider} from "../providers/options/options.provider";
     MyApp,
     HomePage,
     TestPage,
-      OptionsPage
+    OptionsPage
   ],
-=======
-import { Web3Service } from '../providers/web3/web3.service';
-
-@NgModule({
-  declarations: [MyApp, HomePage, TestPage],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
-  bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage, TestPage],
->>>>>>> b2ff13ced5efdd487ba56205d0fc384f9060a007:participant-app/src/app/app.module.ts
   providers: [
     StatusBar,
     SplashScreen,
@@ -54,11 +43,8 @@ import { Web3Service } from '../providers/web3/web3.service';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     Web3Service,
     MockProvider,
-<<<<<<< HEAD:participant-app/src/app/app.module.ts
-      OptionsProvider
-  ]
-=======
+    OptionsProvider,
+    PensionServiceProvider
   ],
->>>>>>> b2ff13ced5efdd487ba56205d0fc384f9060a007:participant-app/src/app/app.module.ts
 })
 export class AppModule {}
