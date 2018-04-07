@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { PARTICIPANTS } from './mock-participants';
-import { SUPPLIERS } from './mock-suppliers';
 
+import { PARTICIPANTS } from './mock-participants';
+import { PRODUCTS } from './mock-products';
+import { SUPPLIERS } from './mock-suppliers';
 
 @Injectable()
 export class MockProvider {
   private participants: any;
   private suppliers: any;
+  private products: any;
 
   constructor() {
     this.participants = PARTICIPANTS;
     this.suppliers = SUPPLIERS;
+    this.products = PRODUCTS;
   }
 
   getAllParticipants() {
@@ -18,38 +21,24 @@ export class MockProvider {
   }
 
   getParticipant(id) {
-    for (let i = 0; i < this.participants.length; i++) {
-      if (this.participants[i].id === parseInt(id, 10)) {
-        return this.participants[i];
-      }
-    }
-    return null;
+    return this.participants.filter(participant => participant.id === parseInt(id, 10));
   }
 
-    getAllProducts() {
-        return this.products;
-    }
+  getAllProducts() {
+    return this.products;
+  }
 
-    getProduct(id) {
-        for (var i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === parseInt(id)) {
-                return this.products[i];
-            }
-        }
-        return null;
-    }
+  getProduct(id) {
+    return this.products.filter(product => product.id === +id);
+  }
 
-    getFirstProductFromOption(option_id) {
-            if (this.products[i].option_id === parseInt(option_id)) {
-                return this.products[i];
-            }
-        }
-        return null;
-    }
+  getFirstProductFromOption(optionId) {
+    return this.products.filter(product => product.option_id === +optionId);
+  }
 
-    getAllSuppliers() {
-        return this.suppliers;
-    }
+  getAllSuppliers() {
+    return this.suppliers;
+  }
 
   getSupplier(id) {
     // tslint:disable-next-line:prefer-for-of
