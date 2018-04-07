@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "lint": "ionic-app-scripts lint",
+    "format": "prettier src/**/**/*.{js,jsx,ts,tsx,css,scss,md}",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
@@ -41,6 +42,11 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.8",
+    "@types/node": "~9.4.7",
+    "prettier": "1.11.1",
+    "rxjs-tslint-rules": "~3.15.0",
+    "tslint": "~5.9.1",
+    "tslint-config-prettier": "~1.10.0",
     "typescript": "2.4.2"
   },
   "description": "An Ionic project",
@@ -53,8 +59,6 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-nativeaudio": {}
     },
-    "platforms": [
-      "ios"
-    ]
+    "platforms": ["ios"]
   }
 }
