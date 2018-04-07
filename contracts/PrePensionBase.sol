@@ -87,6 +87,14 @@ contract PrePensionBase {
     _;
   }
 
+  modifier sufficientBalance (bytes32 _participant, uint _amount) {
+
+      if (data.participants[data.participantMapping[_participant]].balance < _amount) {
+        revert();
+      }
+      _;
+  }
+
   function () public {
     revert();
   }

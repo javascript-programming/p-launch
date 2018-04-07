@@ -14,7 +14,6 @@ library PrePensionLib {
 
     struct Supplier {
         bytes32 id;
-        uint balance;
         uint noOfInvoices;
         bool active;
         mapping (uint => Invoice) invoices;
@@ -24,6 +23,7 @@ library PrePensionLib {
         bytes32 id;
         bool active;
         mapping (bytes32 => uint) minted;
+        mapping (bytes32 => uint) paid;
     }
 
     struct PensionBalance {
@@ -33,13 +33,13 @@ library PrePensionLib {
 
     struct Purchase {
         bytes32 supplier;
+        uint invoice;
         uint amount;
         bool validated;
         bool delivered;
     }
 
     struct Invoice {
-        uint id;
         bytes32 participant;
         uint amount;
         bool paid;
@@ -76,7 +76,7 @@ library PrePensionLib {
     }
 
     function addSupplier (Data storage self, address _supplier, bytes32 _id) internal returns (Supplier) {
-        self.suppliers[_supplier] = Supplier(_id, 0, 0, true);
+        self.suppliers[_supplier] = Supplier(_id, 0, true);
         self.supplierMapping[_id] = _supplier;
         self.noOfSuppliers += 1;
         self.supplierIterator[self.noOfSuppliers] = _id;
@@ -124,6 +124,21 @@ library PrePensionLib {
         }
 
         return 0;
+    }
+
+    function purchase (Data storage self, bytes32 _participant, bytes32 _supplier, uint _amount) internal returns (Purchase) {
+        Supplier storage supplier = self.suppliers[self.supplierMapping[_supplier]];
+        Participant storage participant = self.participants[self.participantMapping[_participant]];
+
+        supplier.noOfInvoices += 1;
+        supplier.invoices[supplier.noOfInvoices] = Invoice(_participant, _amount, false);
+
+        participant.noOfPurchases += 1;
+        participant.purchases[participant.noOfPurchases] = Purchase(_supplier, supplier.noOfInvoices, _amount, false, false);
+
+        participant.balance -= _amount;
+
+        return participant.purchases[participant.noOfPurchases];
     }
 
 }
