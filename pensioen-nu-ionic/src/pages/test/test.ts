@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import prePensionArtifacts from '../../../../build/contracts/PrePension.json'
-import contract from 'truffle-contract'
+import prePensionArtifacts from '../../../../build/contracts/PrePension.json';
+import contract from 'truffle-contract';
 
 import { Web3Service } from '../../providers/web3/web3.service';
-
-declare var window: any;
 
 @Component({
   selector: 'page-test',
@@ -17,6 +15,8 @@ export class TestPage {
     private PrePensionContract;
     private accounts;
     private account;
+    status;
+    input: { amount: string, pension: string } = { amount: '', pension: '' };
 
   constructor(public navCtrl: NavController,
               private web3Service: Web3Service) {
@@ -63,8 +63,7 @@ export class TestPage {
     }
 
     setStatus (message) {
-        let status = document.getElementById('status')
-        status.innerHTML = message
+        this.status = message
     }
 
 }
