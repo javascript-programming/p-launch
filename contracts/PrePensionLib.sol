@@ -69,7 +69,7 @@ library PrePensionLib {
 
     function addPensionBalance (Data storage self, bytes32 _participant, bytes32 _pension, uint _balance) internal returns (PensionBalance) {
         Participant storage participant = self.participants[self.participantMapping[_participant]];
-        participant.noOfPensions++;
+        participant.noOfPensions += 1;
         participant.pensionBalances[participant.noOfPensions] = PensionBalance(_pension, _balance);
         return participant.pensionBalances[participant.noOfPensions];
     }

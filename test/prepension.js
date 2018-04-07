@@ -10,19 +10,19 @@ contract('PrePension', function(accounts) {
       return meta.version();
     }).then(function(version) {
       assert.equal(web3.toUtf8(version), "PrePension v1.0.0", "Version is correct");
-      return meta.addPension(accounts[1], "TKP");
+      return meta.addPension(accounts[1], "APG");
     }).then(function (transaction) {
         var args = transaction.logs[0].args
-        assert.equal(web3.toUtf8(args.id), "TKP");
-        return meta.getPension('TKP');
+        assert.equal(web3.toUtf8(args.id), "APG");
+        return meta.getPension('APG');
     }).then(function (pension) {
-        assert.equal(web3.toUtf8(pension[0]), 'TKP');
+        assert.equal(web3.toUtf8(pension[0]), 'APG');
         assert.equal(pension[1], true);
-        return meta.addParticipant(accounts[2], 'Terence', { from : accounts[1] });
+        return meta.addParticipant(accounts[2], "Terence", { from : accounts[1] });
     }).then(function (transaction) {
         var args = transaction.logs[0].args;
         assert.equal(web3.toUtf8(args.id), "Terence");
-        return meta.getParticipant('Terence');
+        return meta.getParticipant("Terence");
     }).then(function (participant) {
         assert.equal(web3.toUtf8(participant[0]), 'Terence');
         assert.equal(participant[1].toNumber(), 0);
@@ -51,6 +51,18 @@ contract('PrePension', function(accounts) {
 
   it("Mint", function () {
 
+    let meta;
+
+    return PrePension.deployed().then(function(instance) {
+      meta = instance;
+      return meta.mint("APG", "Terence", 40000, { from : accounts[1] });
+    }).then(function (transaction) {
+      var args = transaction.logs[0].args;
+      assert.equal(web3.toUtf8(args.participant), "Terence");
+      assert.equal(web3.toUtf8(args.pension), "APG");
+      assert.equal(args.coins.toNumber(), 4000);
+      assert.equal(args.balance.toNumber(), 40000);
+    });
   });
 
 });

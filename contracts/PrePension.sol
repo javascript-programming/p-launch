@@ -76,11 +76,11 @@ contract PrePension is PrePensionBase {
     );
   }
 
-  event minted (bytes32 _pension, bytes32 _participant, uint newBalans, uint coins);
+  event minted (bytes32 pension, bytes32 participant, uint balance, uint coins);
 
   function mint (bytes32 _pension, bytes32 _participant, uint _balance) public pensionExist(_pension) participantExist(_participant) {
     uint coins = PrePensionLib.mint(data, _pension, _participant, _balance);
-    PrePensionLib.PensionBalance memory pensionBalance = PrePensionLib.getPensionBalance(data, _pension, _participant);
+    PrePensionLib.PensionBalance memory pensionBalance = PrePensionLib.getPensionBalance(data, _participant, _pension);
     emit minted(_pension, _participant, pensionBalance.balance, coins);
   }
 
