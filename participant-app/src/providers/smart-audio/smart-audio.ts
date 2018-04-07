@@ -1,69 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { Platform } from 'ionic-angular';
 
 @Injectable()
 export class SmartAudioProvider {
-
   audioType: string = 'html5';
   sounds: any = [];
 
   constructor(public nativeAudio: NativeAudio, platform: Platform) {
-
-    if(platform.is('cordova')){
+    if (platform.is('cordova')) {
       this.audioType = 'native';
     }
-
   }
 
   preload(key, asset) {
-
-    if(this.audioType === 'html5'){
-
-      let audio = {
-        key: key,
-        asset: asset,
-        type: 'html5'
+    if (this.audioType === 'html5') {
+      const audio = {
+        key,
+        asset,
+        type: 'html5',
       };
 
       this.sounds.push(audio);
-
     } else {
-
       this.nativeAudio.preloadSimple(key, asset);
 
-      let audio = {
-        key: key,
+      const audio = {
+        key,
         asset: key,
-        type: 'native'
+        type: 'native',
       };
 
       this.sounds.push(audio);
     }
-
   }
 
-  play(key){
-
-    let audio = this.sounds.find((sound) => {
+  play(key) {
+    const audio = this.sounds.find(sound => {
       return sound.key === key;
     });
 
-    if(audio.type === 'html5'){
-
-      let audioAsset = new Audio(audio.asset);
+    if (audio.type === 'html5') {
+      const audioAsset = new Audio(audio.asset);
       audioAsset.play();
-
     } else {
-
-      this.nativeAudio.play(audio.asset).then((res) => {
-        console.log(res);
-      }, (err) => {
-        console.log(err);
-      });
-
+      this.nativeAudio.play(audio.asset).then(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
     }
-
   }
-
 }

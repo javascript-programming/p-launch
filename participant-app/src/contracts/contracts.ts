@@ -27,7 +27,7 @@ export namespace W3 {
 
         export function txParamsDefaultDeploy(from: address): TxParams {
             return {
-                from: from,
+                from,
                 gas: 4712388,
                 gasPrice: 20000000000,
                 value: 0
@@ -36,7 +36,7 @@ export namespace W3 {
 
         export function txParamsDefaultSend(from: address): TxParams {
             return {
-                from: from,
+                from,
                 gas: 50000,
                 gasPrice: 20000000000,
                 value: 0
@@ -148,7 +148,7 @@ export namespace W3 {
             language: string;
             languageVersion: string;
             compilerVersion: string;
-            abiDefinition: Array<ABIDefinition>;
+            abiDefinition: ABIDefinition[];
         };
         userDoc: { methods: object };
         developerDoc: { methods: object };
@@ -214,11 +214,11 @@ export namespace W3 {
         timestamp: number;
     }
     export interface Block extends BlockHeader {
-        transactions: Array<Transaction>;
+        transactions: Transaction[];
         size: number;
         difficulty: number;
         totalDifficulty: number;
-        uncles: Array<string>;
+        uncles: string[];
     }
 
     export interface Logs {
@@ -239,7 +239,7 @@ export namespace W3 {
         blockNumber: number;
         address: string;
         data?: string;
-        topics?: Array<string>;
+        topics?: string[];
 
         /** Truffle-contract returns this as 'mined' */
         type?: string;
@@ -439,7 +439,7 @@ export namespace W3 {
         // tslint:disable-next-line:member-ordering
         currentProvider: Provider;
         estimateGas(tx: Tx, callback?: Callback<number>): Promise<number>;
-        getAccounts(cb?: Callback<Array<string>>): Promise<Array<string>>;
+        getAccounts(cb?: Callback<string[]>): Promise<string[]>;
         getBalance(address: string, defaultBlock?: BlockType, cb?: Callback<number>): Promise<number>;
         // tslint:disable-next-line:variable-name
         getBlock(number: BlockType, returnTransactionObjects?: boolean, cb?: Callback<Block>): Promise<Block>;
@@ -457,8 +457,8 @@ export namespace W3 {
             fromBlock?: BlockType
             toBlock?: BlockType
             address: string
-            topics?: Array<string | Array<string>>
-        }, cb?: Callback<Array<Log>>): Promise<Array<Log>>;
+            topics?: Array<string | string[]>
+        }, cb?: Callback<Log[]>): Promise<Log[]>;
         getProtocolVersion(cb?: Callback<string>): Promise<string>;
         getStorageAt(address: string, defaultBlock?: BlockType, cb?: Callback<string>): Promise<string>;
         getTransactionReceipt(hash: string, cb?: Callback<TransactionReceipt>): Promise<TransactionReceipt>;
@@ -467,7 +467,7 @@ export namespace W3 {
         getTransactionFromBlock(block: BlockType, index: number, cb?: Callback<Transaction>): Promise<Transaction>;
         // tslint:disable-next-line:max-line-length
         getUncle(blockHashOrBlockNumber: BlockType | string, uncleIndex: number, returnTransactionObjects?: boolean, cb?: Callback<Block>): Promise<Block>;
-        getWork(cb?: Callback<Array<string>>): Promise<Array<string>>;
+        getWork(cb?: Callback<string[]>): Promise<string[]>;
         // tslint:disable-next-line:member-ordering
         givenProvider: Provider;
         isMining(cb?: Callback<boolean>): Promise<boolean>;
@@ -507,17 +507,17 @@ export namespace W3 {
     export interface Bzz { }
 
     export const duration = {
-        seconds: function (val: number) { return val; },
-        minutes: function (val: number) { return val * this.seconds(60); },
-        hours: function (val: number) { return val * this.minutes(60); },
-        days: function (val: number) { return val * this.hours(24); },
-        weeks: function (val: number) { return val * this.days(7); },
-        years: function (val: number) { return val * this.days(365); }
+        seconds (val: number) { return val; },
+        minutes (val: number) { return val * this.seconds(60); },
+        hours (val: number) { return val * this.minutes(60); },
+        days (val: number) { return val * this.hours(24); },
+        weeks (val: number) { return val * this.days(7); },
+        years (val: number) { return val * this.days(365); }
     };
 }
 
 const contract = require('truffle-contract');
-const web3 = window['web3'];
+const web3 = window.web3;
 
 export abstract class StaticWeb3Contract {
     private contract: any;
@@ -541,7 +541,7 @@ export abstract class StaticWeb3Contract {
         return this._instance;
     }
 
-    public async $getBalance(id: string) {
+    async $getBalance(id: string) {
         return await new Promise((resolve, reject) => {
             this.web3.eth.getBalance(id, (error: Error, result: string) => {
                 if (error) {
@@ -580,7 +580,7 @@ export abstract class Web3Contract {
         return this._instance;
     }
 
-    public async $getBalance() {
+    async $getBalance() {
         return await new Promise((resolve, reject) => {
             this.web3.eth.getBalance(this.at, (error: Error, result: string) => {
                 if (error) {
