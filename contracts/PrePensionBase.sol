@@ -75,7 +75,7 @@ contract PrePensionBase {
 
   modifier supplierNotExist (bytes32 _supplier) {
 
-    if (!data.suppliers[data.supplierMapping[_supplier]].active) {
+    if (data.suppliers[data.supplierMapping[_supplier]].active) {
       revert();
     }
     _;
