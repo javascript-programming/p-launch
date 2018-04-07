@@ -9,12 +9,13 @@ import { HomePage } from '../pages/home/home';
 import { TestPage } from '../pages/test/test';
 
 import { Web3Service } from '../providers/web3/web3.service';
+import { MockProvider } from '../providers/mock/mock.provider';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-      TestPage
+    TestPage
   ],
   imports: [
     BrowserModule,
@@ -24,13 +25,14 @@ import { Web3Service } from '../providers/web3/web3.service';
   entryComponents: [
     MyApp,
     HomePage,
-      TestPage
+    TestPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-      Web3Service
+    Web3Service,
+    MockProvider
   ]
 })
 export class AppModule {}
