@@ -52,5 +52,8 @@ export class HomePage {
 
   }
 
+  continue(){
+    this.navCtrl.push("OptionsPage", {});
+  }
 }
 

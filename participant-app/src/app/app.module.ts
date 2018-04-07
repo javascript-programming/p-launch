@@ -6,8 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { HomePage } from '../pages/home/home';
-import { OptionsPage } from '../pages/options/options';
-import { TestPage } from '../pages/test/test';
 import { MockProvider } from '../providers/mock/mock.provider';
 import { OptionsProvider } from '../providers/options/options.provider';
 import { PensionServiceProvider } from '../providers/pension-service/pension-service';
@@ -16,10 +14,10 @@ import { Web3Service } from '../providers/web3/web3.service';
 import { MyApp } from './app.component';
 
 @NgModule({
-  declarations: [MyApp, HomePage, TestPage, OptionsPage],
+  declarations: [MyApp, HomePage],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage, TestPage, OptionsPage],
+  entryComponents: [MyApp, HomePage],
   providers: [
     StatusBar,
     SplashScreen,
