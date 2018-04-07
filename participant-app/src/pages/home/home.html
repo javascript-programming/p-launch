@@ -52,14 +52,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!--<ion-item>-->
-    <!--<ion-range min="55" max="67" (ionChange)="changeAge()" [(ngModel)]="pensionServiceProvider.age" color="secondary">-->
-      <!--<ion-label range-left>55</ion-label>-->
-      <!--<ion-label range-right>67</ion-label>-->
-    <!--</ion-range>-->
-  <!--</ion-item>-->
-  <!--<br /><br />-->
-
   <ion-card class="transparant">
     <ion-card-header class="transparant">
       <span class="bgorange white">PERSONAL BUDGET</span>
@@ -68,27 +60,15 @@
       <span class="white big">&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</span><br />
       <span class="white small">MAXIMUM</span>
       <ion-item>
-        <ion-range min="0" pin="true" max="{{pensionServiceProvider.maxPossibleLumpsum}}" (ionChange)="changeLumpsum()" [(ngModel)]="lumpsum" color="secondary">
-          <ion-label range-left>&euro;0</ion-label>
-          <ion-label range-right>&euro;{{pensionServiceProvider.maxPossibleLumpsum}},-</ion-label>
+        <ion-range min="0" pin="true" snaps="true" step="100" max="{{pensionServiceProvider.maxPossibleLumpsum}}" (ionChange)="changeLumpsum()" [(ngModel)]="lumpsum" color="secondary">
+          <ion-label range-left>&euro; 0</ion-label>
+          <ion-label range-right>&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</ion-label>
         </ion-range>
       </ion-item>
       <span class="white small"> YOUR NEW ENTITLEMENT AT 67</span><br />
       <span class="white medium" *ngIf="showYearly">&euro;{{pensionServiceProvider.newEntitlementPerYear}}</span>
       <span class="white medium" *ngIf="!showYearly">&euro;{{pensionServiceProvider.newEntitlementPerMonth}}</span>
       <button class="pullright" ion-button color="grey" (click)="continue()">CONTINUE</button>
-
     </ion-card-content>
   </ion-card>
-
-  <!--<br />-->
-  <!--lumpsum: &euro;{{lumpsum}}-->
-  <!--<br />-->
-  <!--current total pension amount: &euro;{{pensionServiceProvider.currentTotalPensionAmount}}-->
-  <!--<br />-->
-  <!--new total pension amount: &euro;{{pensionServiceProvider.newTotalPensionAmount}}-->
-  <!--<br />-->
-  <!--your new entitlement at 67 per year: &euro;{{pensionServiceProvider.newEntitlementPerYear}}-->
-  <!--<br />-->
-  <!--your new entitlement at 67 per month: &euro;{{pensionServiceProvider.newEntitlementPerMonth}}-->
 </ion-content>

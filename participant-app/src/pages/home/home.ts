@@ -12,7 +12,6 @@ import { MockProvider } from '../../providers/mock/mock.provider';
 export class HomePage {
 
   private showYearly: boolean;
-  private age: number;
   private lumpsum: number;
   private participant: any;
 
@@ -23,17 +22,15 @@ export class HomePage {
       public pensionServiceProvider: PensionServiceProvider,
       public smartAudioProvider: SmartAudioProvider
   ) {
-    this.age = 55;
     this.lumpsum = 0;
     this.participant = this.mockProvider.getParticipant(1);
     this.showYearly = false;
+
+    this.changeLumpsum();
   }
 
-  changeAge(){
-    this.pensionServiceProvider.calculate(this.lumpsum);
-  }
   changeLumpsum(){
-    this.pensionServiceProvider.calculate(this.lumpsum);
+    this.pensionServiceProvider.calculate(this.participant, this.lumpsum);
   }
 
   gotoOptionsPage(){
