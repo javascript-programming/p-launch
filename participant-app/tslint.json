@@ -1,0 +1,13 @@
+{
+  "extends": ["tslint:recommended", "rxjs-tslint-rules", "tslint-config-prettier"],
+  "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
+  "rules": {
+    "no-duplicate-variable": true,
+    "no-unused-variable": [true],
+    "member-access": [true, "no-public"],
+    "no-require-imports": false,
+    "object-literal-sort-keys": false,
+    "no-console": false
+  },
+  "linterOptions": { "exclude": ["/contracts"] }
+}

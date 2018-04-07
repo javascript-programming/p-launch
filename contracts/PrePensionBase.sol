@@ -12,7 +12,7 @@ contract PrePensionBase {
   function PrePensionBase() public {
     owner = msg.sender;
     data = PrePensionLib.Data({
-        mintedCoins : 0
+        noOfSuppliers : 0
       });
   }
 

@@ -52,7 +52,8 @@ library PrePensionLib {
         mapping(bytes32 => address) supplierMapping;
         mapping(address => Pension) pensions;
         mapping(bytes32 => address) pensionMapping;
-        uint mintedCoins;
+        mapping(uint => bytes32) supplierIterator;
+        uint noOfSuppliers;
     }
 
     function addParticipant (Data storage self, address _participant, bytes32 _id) internal returns (Participant) {
@@ -77,6 +78,8 @@ library PrePensionLib {
     function addSupplier (Data storage self, address _supplier, bytes32 _id) internal returns (Supplier) {
         self.suppliers[_supplier] = Supplier(_id, 0, 0, true);
         self.supplierMapping[_id] = _supplier;
+        self.noOfSuppliers += 1;
+        self.supplierIterator[self.noOfSuppliers] = _id;
         return self.suppliers[_supplier];
     }
 
