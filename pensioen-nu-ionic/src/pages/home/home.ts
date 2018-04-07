@@ -9,6 +9,7 @@ import { SmartAudioProvider } from '../../providers/smart-audio/smart-audio';
 })
 export class HomePage {
 
+  private personalBudget;
   constructor(
       public navCtrl: NavController,
       public navParams: NavParams,
