@@ -9,7 +9,7 @@
 <ion-content padding>
   <h1>PrePension</h1>
   <h2>Example Truffle Dapp</h2>
-  <h3>You have {{ amount }} coins</h3>
+  <h3>You have .. coins</h3>
 
   <br>
   <h1>Set Pension</h1>
@@ -18,7 +18,7 @@
   <ion-input type="text" [(ngModel)]="input.pension" name="pension" placeholder="e.g., TKP"></ion-input>
   <br><br><button id="send" (click)="updatePension()">Update Pension</button>
   <br><br>
-  <span id="status"></span>
+  <span>Status: {{ status }}</span>
   <br>
   <span class="hint"><strong>Hint:</strong> open the browser developer console to view any errors and warnings.</span>
 </ion-content>
