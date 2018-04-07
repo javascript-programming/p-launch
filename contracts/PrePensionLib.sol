@@ -42,7 +42,7 @@ library PrePensionLib {
     struct Invoice {
         bytes32 participant;
         uint amount;
-        bool paid;
+        uint paid;
     }
 
     struct Data {
@@ -131,7 +131,7 @@ library PrePensionLib {
         Participant storage participant = self.participants[self.participantMapping[_participant]];
 
         supplier.noOfInvoices += 1;
-        supplier.invoices[supplier.noOfInvoices] = Invoice(_participant, _amount, false);
+        supplier.invoices[supplier.noOfInvoices] = Invoice(_participant, _amount, 0);
 
         participant.noOfPurchases += 1;
         participant.purchases[participant.noOfPurchases] = Purchase(_supplier, supplier.noOfInvoices, _amount, false, false);
@@ -140,5 +140,11 @@ library PrePensionLib {
 
         return participant.purchases[participant.noOfPurchases];
     }
+
+//    function payInvoice (Data storage self, bytes32 _pension, bytes32 _supplier, uint _invoiceId, uint _amount) internal returns (bool) {
+//
+//
+//
+//    }
 
 }
