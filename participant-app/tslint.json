@@ -4,6 +4,10 @@
   "rules": {
     "no-duplicate-variable": true,
     "no-unused-variable": [true],
-    "member-access": [true, "no-public"]
-  }
+    "member-access": [true, "no-public"],
+    "no-require-imports": false,
+    "object-literal-sort-keys": false,
+    "no-console": false
+  },
+  "linterOptions": { "exclude": ["/contracts"] }
 }

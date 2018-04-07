@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
-const Web3 = require('web3');
+import * as Web3 from 'web3';
 
 declare var window: any;
 
 @Injectable()
 export class Web3Service {
-  public web3: any;
+  web3: any;
 
   constructor() {
     this.checkAndInstantiateWeb3();
