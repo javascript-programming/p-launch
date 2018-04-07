@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PARTICIPANTS } from './mock-participants';
 import { SUPPLIERS } from './mock-suppliers';
 
+
 @Injectable()
 export class MockProvider {
   private participants: any;
@@ -25,9 +26,30 @@ export class MockProvider {
     return null;
   }
 
-  getAllSuppliers() {
-    return this.suppliers;
-  }
+    getAllProducts() {
+        return this.products;
+    }
+
+    getProduct(id) {
+        for (var i = 0; i < this.products.length; i++) {
+            if (this.products[i].id === parseInt(id)) {
+                return this.products[i];
+            }
+        }
+        return null;
+    }
+
+    getFirstProductFromOption(option_id) {
+            if (this.products[i].option_id === parseInt(option_id)) {
+                return this.products[i];
+            }
+        }
+        return null;
+    }
+
+    getAllSuppliers() {
+        return this.suppliers;
+    }
 
   getSupplier(id) {
     // tslint:disable-next-line:prefer-for-of
