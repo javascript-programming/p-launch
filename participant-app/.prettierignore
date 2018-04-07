@@ -12,6 +12,9 @@ package.json
 /dist
 /tmp
 /out-tsc
+/contract
+
+
 
 # dependencies
 /node_modules
@@ -36,8 +39,6 @@ package.json
 npm-debug.log
 testem.log
 /typings
-
-# Chain specific / Truffle
 
 
 # e2e
