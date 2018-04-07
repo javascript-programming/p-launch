@@ -34,7 +34,6 @@ export class HomePage {
   }
   changeLumpsum(){
     this.pensionServiceProvider.calculate(this.lumpsum);
-    console.log(this.lumpsum);
   }
 
   gotoOptionsPage(){
@@ -56,5 +55,8 @@ export class HomePage {
 
   }
 
+  continue(){
+    this.navCtrl.push("OptionsPage", {});
+  }
 }
 

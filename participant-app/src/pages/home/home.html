@@ -15,7 +15,9 @@
 
 <ion-content padding class="bg">
 
-  <img src="/assets/img/logo.png" alt="" />
+  <div class="logo">
+    <img src="/assets/img/logo.png" alt="" />
+  </div>
 
   <ion-card class="transparant">
     <ion-card-header class="transparant">
@@ -74,7 +76,7 @@
       <span class="white small"> YOUR NEW ENTITLEMENT AT 67</span><br />
       <span class="white medium" *ngIf="showYearly">&euro;{{pensionServiceProvider.newEntitlementPerYear}}</span>
       <span class="white medium" *ngIf="!showYearly">&euro;{{pensionServiceProvider.newEntitlementPerMonth}}</span>
-      <button class="pullright" ion-button color="grey">CONTINUE</button>
+      <button class="pullright" ion-button color="grey" (click)="continue()">CONTINUE</button>
 
     </ion-card-content>
   </ion-card>

@@ -8,7 +8,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HomePage } from '../pages/home/home';
 
 import { MyApp } from './app.component';
-
 import { MockProvider } from '../providers/mock/mock.provider';
 import { OptionsProvider } from "../providers/options/options.provider";
 import { PensionServiceProvider } from '../providers/pension-service/pension-service';
