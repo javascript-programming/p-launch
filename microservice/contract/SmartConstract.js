@@ -37,8 +37,9 @@ class SmartContract {
         me.PrePensionContract = instance
         me.web3.eth.getAccounts().then(acc => {
           me.Accounts = acc
-          me.getParticipant('Bart de jong').next(participant => {
-              var v = 1
+
+          me.getSuppliers().then(suppliers => {
+            let w = 1
           })
         })
       }
@@ -49,14 +50,65 @@ class SmartContract {
     return this.Accounts
   }
 
+  getSupplier (id) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.getSupplierById(id).then(result => {
+        resolve({
+          name : me.web3.utils.toUtf8(result[0])
+        })
+      }).catch(err => {
+        var e = err
+      })
+    })
+  }
+
+  getSuppliers () {
+    let me = this
+    let numberOfSuppliers = 0
+    let suppliers = []
+
+    return new Promise((resolve, reject) => {
+      let fetchSupplier = (id) => {
+        me.getSupplier(id).then(result => {
+          suppliers.push(result)
+          numberOfSuppliers -= 1
+          if (numberOfSuppliers > 0) {
+            fetchSupplier(numberOfSuppliers)
+          } else {
+            resolve(suppliers)
+          }
+        })
+      }
+
+      me.PrePensionContract.getNumberOfSuppliers().then(number => {
+        numberOfSuppliers = number.toNumber()
+        fetchSupplier(numberOfSuppliers)
+      })
+    })
+  }
+
   getParticipant (name) {
     let me = this
 
     return new Promise((resolve, reject) => {
-      me.PrePensionContract.getParticipant.call(name).then(result => {
+      me.PrePensionContract.getParticipant(name).then(result => {
         resolve({
           name : me.web3.utils.toUtf8(result[0]),
           balance : result[1].toNumber()
+        })
+      })
+    })
+  }
+
+  getPension (name) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.getPension(name).then(result => {
+        resolve({
+          name : me.web3.utils.toUtf8(result[0])
         })
       })
     })
@@ -107,14 +159,15 @@ class SmartContract {
     let me = this
 
     return new Promise((resolve, reject) => {
-      me.PrePensionContract.addParticipant(account, name, { from: from, gas: me.gas }).then(transaction => {
-        resolve(transaction)
-      }).catch(err => {
-        resolve(err)
+      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
+        me.PrePensionContract.addParticipant(account, name, { from: from, gas: me.gas }).then(transaction => {
+          resolve(transaction)
+        }).catch(err => {
+          resolve(err)
+        })
       })
     })
   }
-
 }
 
 module.exports = SmartContract
