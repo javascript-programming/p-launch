@@ -39,14 +39,11 @@ export class HomePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }
+
   ionViewDidEnter() {
     setTimeout(() => {
-      this.smartAudioProvider.play('splash');
+      this.smartAudioProvider.play('home');
     }, 0);
-    //
-    // setTimeout(() => {
-    //   this.viewCtrl.dismiss();
-    // }, 4000);
   }
 
   continue() {
