@@ -37,12 +37,29 @@ class SmartContract {
         me.PrePensionContract = instance
         me.web3.eth.getAccounts().then(acc => {
           me.Accounts = acc
-          me.addDummyData(() => {
-            console.log('dummy data added')
+          me.getParticipant('Bart de jong').next(participant => {
+              var v = 1
           })
         })
       }
     )
+  }
+
+  getAccounts () {
+    return this.Accounts
+  }
+
+  getParticipant (name) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.getParticipant.call(name).then(result => {
+        resolve({
+          name : me.web3.utils.toUtf8(result[0]),
+          balance : result[1].toNumber()
+        })
+      })
+    })
   }
 
   addDummyData (callback) {
@@ -52,7 +69,7 @@ class SmartContract {
         me.addSupplier(me.Accounts[2], 'Rug', me.Accounts[1]).then(transaction => {
           me.addSupplier(me.Accounts[3], 'Reaal', me.Accounts[1]).then(transaction => {
             me.addSupplier(me.Accounts[4], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
-              me.addParticipant(me.Accounts[0], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
+              me.addParticipant(me.Accounts[0], 'Bart de Jong', me.Accounts[1]).then(transaction => {
                 callback()
               })
             })
