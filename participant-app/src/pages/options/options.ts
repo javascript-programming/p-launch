@@ -20,6 +20,9 @@ export class OptionsPage {
     this.options = optionsProvider.getAllOptions()
   }
 
+  selectOption (option_id) {
+    this.navCtrl.push("PurchasePage",{option_id: option_id});
+  }
 
 
   ionViewDidLoad() {
