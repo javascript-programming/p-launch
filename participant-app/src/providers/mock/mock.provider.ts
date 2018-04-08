@@ -21,7 +21,7 @@ export class MockProvider {
   }
 
   getParticipant(id) {
-    return this.participants.filter(participant => participant.id === parseInt(id, 10));
+    return this.participants.filter(participant => participant.id === parseInt(id, 10))[0];
   }
 
   getAllProducts() {
@@ -29,11 +29,11 @@ export class MockProvider {
   }
 
   getProduct(id) {
-    return this.products.filter(product => product.id === +id);
+    return this.products.filter(product => product.id === +id)[0];
   }
 
   getFirstProductFromOption(optionId) {
-    return this.products.filter(product => product.option_id === +optionId);
+    return this.products.filter(product => product.option_id === +optionId)[0];
   }
 
   getAllSuppliers() {
