@@ -14,11 +14,12 @@ import { PensionServiceProvider } from '../providers/pension-service/pension-ser
 import {PurchaseProvider} from "../providers/purchase/purchase.provider";
 import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
 import { Web3Service } from '../providers/web3/web3.service';
+import {SigninPage} from "../pages/signin/signin";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    SigninPage
   ],
   imports: [
     BrowserModule,
@@ -27,7 +28,7 @@ import { Web3Service } from '../providers/web3/web3.service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
+    SigninPage,
   ],
   providers: [
     StatusBar,
