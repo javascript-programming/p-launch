@@ -4,14 +4,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
 
-import { HomePage } from '../pages/home/home';
 import { Web3Service } from '../providers/web3/web3.service';
 
 @Component({
   templateUrl: 'app.html',
 })
 export class MyApp {
-  rootPage: any = HomePage;
+  rootPage: any = "HomePage";
 
   constructor(
     platform: Platform,

@@ -19,10 +19,12 @@
     <img src="/assets/img/logo.png" alt="" />
   </div>
 
+  <ion-title>Select option to continue</ion-title>
+
   <ion-card *ngFor="let option of options" (click)="selectOption(option.id)">
 
     <ion-item>
-      <ion-icon name="football" item-start large></ion-icon>
+      <ion-icon name="{{ option.icon }}" item-start large></ion-icon>
       <h2>{{ option.name }}</h2>
       <p>{{ option.description }}</p>
     </ion-item>

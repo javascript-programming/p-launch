@@ -53,7 +53,7 @@ export class HomePage {
   }
 
   continue(){
-    this.navCtrl.push("OptionsPage", {});
+    this.navCtrl.push("OptionsPage", {go: true});
   }
 }
 
