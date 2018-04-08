@@ -1,28 +1,82 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import contract from 'truffle-contract';
+
+const contract = require('truffle-contract');
 const prePensionArtifacts = require('../../../../build/contracts/PrePension.json');
-
-
 const Web3 = require('web3');
 
 declare var window: any;
 
 @Injectable()
 export class Web3Service {
-  web3: any;
+  private web3: any;
 
-	public web3: any;
   private PrePension = contract(prePensionArtifacts);
-  private PrePensionContract;
-  private Accounts
+  private PrePensionContract: any;
+  private Accounts;
   private gas = 6721970;
 
   constructor() {
-  	this.checkAndInstantiateWeb3();
+    // this.checkAndInstantiateWeb3();
   }
 
-  // tslint:disable-next-line:member-ordering
+  init() {
+    // @Terence, do your magic
+    this.PrePension.setProvider(this.web3.currentProvider);
+
+    this.PrePension.deployed().then(instance => {
+      this.PrePensionContract = instance;
+      window.contract = instance;
+      this.web3.eth.getAccounts((err, acc) => {
+        this.Accounts = acc;
+        // this.addDummyData(() => {
+        //   console.log('dummy data added');
+        // });
+      });
+    });
+  }
+
+  addDummyData(callback) {
+    this.PrePensionContract.addPension(this.Accounts[1], 'APG', { from: this.Accounts[1], gas: this.gas }).then(() =>
+      callback()
+    );
+    // .then(
+    // transaction => {
+    //   this.PrePensionContract.addSupplier(this.Accounts[2], 'RUG', {
+    //     from: this.Accounts[1],
+    //     gas: this.gas,
+    //   })
+    //     .then(() => callback());
+    //   .then(transaction => {
+    //   this.PrePensionContract.addSupplier(this.Accounts[3], 'Reaal', {
+    //     from: this.Accounts[1],
+    //     gas: this.gas,
+    //   })
+    //     .then(transaction => {
+    //     this.PrePensionContract.addSupplier(this.Accounts[4], 'Solar Panel .inc', {
+    //       from: this.Accounts[1],
+    //       gas: this.gas,
+    //     })
+    //       .then(transaction => {
+    //       this.PrePensionContract.addParticipant(this.Accounts[0], 'Bart de jong', {
+    //         from: this.Accounts[1],
+    //         gas: this.gas,
+    //       })
+    //         .then(transaction => {
+    //           console.log('Here');
+    //           this.PrePensionContract.mint('APG', 'Bart de Jong', 126000, {
+    //             from: this.Accounts[1],
+    //             gas: this.gas,
+    //           });
+    //         })
+    //         .then(() => callback());
+    //     });
+    //   });
+    // });
+    // }
+    // );
+  }
+
   getAccounts(): Observable<any> {
     return Observable.create(observer => {
       this.web3.eth.getAccounts((err, accs) => {
@@ -40,7 +94,29 @@ export class Web3Service {
     });
   }
 
-  private checkAndInstantiateWeb3 = () => {
+  // // tslint:disable-next-line:member-ordering
+  // getAccounts(): Observable<any> {
+  //   return Observable.create(observer => {
+  //     this.web3.eth.getAccounts((err, accs) => {
+  //       if (err != null) {
+  //         observer.error('There was an error fetching your accounts.');
+  //       }
+
+  //       if (accs.length === 0) {
+  //         observer.error("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+  //       }
+
+  //       observer.next(accs);
+  //       observer.complete();
+  //     });
+  //   });
+  // }
+
+  // get Participant =>
+  // 1) Creat fake participant => iD => pension.nu.001
+  // 2) getParticipant('pension.nu.001')
+
+  checkAndInstantiateWeb3 = () => {
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     if (typeof window.web3 !== 'undefined') {
       console.warn(
@@ -56,70 +132,4 @@ export class Web3Service {
       this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     }
   };
-
-  init(){
-    // @Terence, do your magic
-    let me = this;
-    me.PrePension.setProvider(me.web3.currentProvider);
-
-    me.PrePension.deployed().then(
-      instance => {
-        me.PrePensionContract = instance;
-        window.contract = instance;
-        me.web3.eth.getAccounts((err, acc) => {
-          me.Accounts = acc;
-          me.addDummyData(() => {
-            console.log('dummy data added')
-          });
-        })
-      }
-    );
-  }
-
-  addDummyData(callback) {
-    let me = this;
-
-      me.PrePensionContract.addPension(me.Accounts[1], 'APG', {from: me.Accounts[1], gas: me.gas}).then(transaction => {
-        me.PrePensionContract.addSupplier(me.Accounts[2], 'RUG', {
-          from: me.Accounts[1],
-          gas: me.gas
-        }).then(transaction => {
-          me.PrePensionContract.addSupplier(me.Accounts[3], 'Reaal', {
-            from: me.Accounts[1],
-            gas: me.gas
-          }).then(transaction => {
-            me.PrePensionContract.addSupplier(me.Accounts[4], 'Solar Panel .inc', {
-              from: me.Accounts[1],
-              gas: me.gas
-            }).then(transaction => {
-              me.PrePensionContract.addParticipant(me.Accounts[0], 'Bart de jong', {from: me.Accounts[1], gas: me.gas}).then(transaction => {
-                console.log('Here')
-                me.PrePensionContract.mint("APG", "Bart de Jong", 126000, {from: me.Accounts[1], gas: me.gas});
-              }).then(() => callback());
-            });
-          });
-        });
-      });
-  }
-
-  getAccounts(): Observable<any>{
-  	return Observable.create(observer => {
-  	  this.web3.eth.getAccounts((err, accs) => {
-  	    if (err != null) {
-  	      observer.error('There was an error fetching your accounts.')
-  	    }
-
-  	    if (accs.length === 0) {
-  	      observer.error('Couldn\'t get any accounts! Make sure your Ethereum client is configured correctly.')
-  	    }
-
-  	    observer.next(accs)
-  	    observer.complete()
-  	  });
-  	})
-  }
-
-  // get Participant =>
-  // 1) Creat fake participant => iD => pension.nu.001
-  // 2) getParticipant('pension.nu.001')
 }
