@@ -211,4 +211,12 @@ page-home {
     font-size: 30px;
     font-weight: 200;
   }
+
+  .range-md .range-pin {
+    -webkit-transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
+    border-radius: 0;
+    padding: 4px 10px;
+    left: -13px;
+  }
 }

@@ -24,7 +24,7 @@ export class HomePage {
     public smartAudioProvider: SmartAudioProvider,
     private purchaseProvider: PurchaseProvider
   ) {
-    this.lumpsum = 0;
+    this.lumpsum = 5000;
     this.participant = this.mockProvider.getParticipant(1);
     this.showYearly = false;
 
