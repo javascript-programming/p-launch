@@ -17,11 +17,9 @@ export class Web3Service {
   private gas = 6721970;
 
   constructor() {
-    // this.checkAndInstantiateWeb3();
   }
 
   init() {
-    // @Terence, do your magic
     this.PrePension.setProvider(this.web3.currentProvider);
 
     this.PrePension.deployed().then(instance => {
@@ -29,9 +27,7 @@ export class Web3Service {
       window.contract = instance;
       this.web3.eth.getAccounts((err, acc) => {
         this.Accounts = acc;
-        // this.addDummyData(() => {
-        //   console.log('dummy data added');
-        // });
+
       });
     });
   }
@@ -40,41 +36,7 @@ export class Web3Service {
     this.PrePensionContract.addPension(this.Accounts[1], 'APG', { from: this.Accounts[1], gas: this.gas }).then(() =>
       callback()
     );
-    // .then(
-    // transaction => {
-    //   this.PrePensionContract.addSupplier(this.Accounts[2], 'RUG', {
-    //     from: this.Accounts[1],
-    //     gas: this.gas,
-    //   })
-    //     .then(() => callback());
-    //   .then(transaction => {
-    //   this.PrePensionContract.addSupplier(this.Accounts[3], 'Reaal', {
-    //     from: this.Accounts[1],
-    //     gas: this.gas,
-    //   })
-    //     .then(transaction => {
-    //     this.PrePensionContract.addSupplier(this.Accounts[4], 'Solar Panel .inc', {
-    //       from: this.Accounts[1],
-    //       gas: this.gas,
-    //     })
-    //       .then(transaction => {
-    //       this.PrePensionContract.addParticipant(this.Accounts[0], 'Bart de jong', {
-    //         from: this.Accounts[1],
-    //         gas: this.gas,
-    //       })
-    //         .then(transaction => {
-    //           console.log('Here');
-    //           this.PrePensionContract.mint('APG', 'Bart de Jong', 126000, {
-    //             from: this.Accounts[1],
-    //             gas: this.gas,
-    //           });
-    //         })
-    //         .then(() => callback());
-    //     });
-    //   });
-    // });
-    // }
-    // );
+
   }
 
   getAccounts(): Observable<any> {
@@ -94,27 +56,6 @@ export class Web3Service {
     });
   }
 
-  // // tslint:disable-next-line:member-ordering
-  // getAccounts(): Observable<any> {
-  //   return Observable.create(observer => {
-  //     this.web3.eth.getAccounts((err, accs) => {
-  //       if (err != null) {
-  //         observer.error('There was an error fetching your accounts.');
-  //       }
-
-  //       if (accs.length === 0) {
-  //         observer.error("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-  //       }
-
-  //       observer.next(accs);
-  //       observer.complete();
-  //     });
-  //   });
-  // }
-
-  // get Participant =>
-  // 1) Creat fake participant => iD => pension.nu.001
-  // 2) getParticipant('pension.nu.001')
 
   checkAndInstantiateWeb3 = () => {
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
@@ -128,7 +69,6 @@ export class Web3Service {
       console.warn(
         "No web3 detected. Falling back to ${environment.HttpProvider}. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask"
       );
-      // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
       this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
     }
   };

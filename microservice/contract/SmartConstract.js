@@ -20,7 +20,6 @@ class SmartContract {
     let me = this
 
     let Web3 = require('web3')
-    // window.web3 = new Web3(new Web3.providers.HttpProvider('http://5.157.85.76:8545'))
     me.web3 = new Web3('ws://5.157.85.76:8546')
 
     let contract = require('truffle-contract')

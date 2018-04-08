@@ -38,9 +38,6 @@ export class TestPage {
   start() {
     this.setStatus('Start');
 
-    // Bootstrap the MetaCoin abstraction for Use.
-    // this.PrePension.setProvider(this.web3Service.web3.currentProvider);
-
     console.log(this.PrePension);
 
     this.PrePension.deployed().then(
