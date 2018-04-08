@@ -20,13 +20,21 @@ export class OptionsPage {
     this.options = optionsProvider.getAllOptions()
   }
 
+  selectOption (option_id) {
+    this.navCtrl.push("PurchasePage",{option_id: option_id});
+  }
 
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OptionsPage');
   }
-  ionViewDidEnter() {
-
+  ionViewCanEnter() {
+      if (!this.navParams.get('go')) {
+          setTimeout(() => {
+              this.navCtrl.setRoot('HomePage');
+          }, 0);
+      return false;
+    }
   }
 
 }

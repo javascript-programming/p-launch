@@ -4,15 +4,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
 
-import { HomePage } from '../pages/home/home';
+// import { HomePage } from '../pages/home/home';
 import { Web3Service } from '../providers/web3/web3.service';
+import {SigninPage} from "../pages/signin/signin";
 
 @Component({
   templateUrl: 'app.html',
 })
 export class MyApp {
-  // rootPage:any = TestPage;
-  rootPage: any = HomePage;
+  rootPage: any = SigninPage;
 
   constructor(
     platform: Platform,
@@ -27,6 +27,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       smartAudioProvider.preload('splash', 'assets/audio/splash.mp3');
+      smartAudioProvider.preload('home', 'assets/audio/home.mp3');
 
       // Call service to load blockchain accounts
       this.web3Service.init();

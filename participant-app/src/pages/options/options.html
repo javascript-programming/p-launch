@@ -6,19 +6,26 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Options</ion-title>
-  </ion-navbar>
+  <!--<ion-navbar>-->
+    <!--<ion-title>Options</ion-title>-->
+  <!--</ion-navbar>-->
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="bg">
 
-  <ion-card *ngFor="let option of options">
+  <div class="logo">
+    <img src="./assets/img/logo.png" />
+  </div>
+
+  <h1>You are in control</h1>
+  <h6>What would you like to buy now to have a better life after you reach the age of 67?</h6>
+
+  <ion-card *ngFor="let option of options" (click)="selectOption(option.id)">
 
     <ion-item>
-      <ion-icon name="football" item-start large></ion-icon>
+      <ion-icon name="{{ option.icon }}" item-start large></ion-icon>
       <h2>{{ option.name }}</h2>
       <p>{{ option.description }}</p>
     </ion-item>
