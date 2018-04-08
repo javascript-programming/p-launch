@@ -7,8 +7,15 @@ export let PRODUCTS = [
         cost: 2000
     },
     {
-        id: 1,
+        id: 2,
         supplier_address: "bbb",
+        name: "Mortgage",
+        option_id: 2,
+        cost: 10000
+    },
+    {
+        id: 3,
+        supplier_address: "ccc",
         name: "Solar Panels",
         option_id: 3,
         cost: 5000

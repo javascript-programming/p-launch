@@ -5,70 +5,116 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <!--<ion-navbar>-->
     <!--<ion-title>home</ion-title>-->
   <!--</ion-navbar>-->
-
 </ion-header>
 
+<div class="bg"></div>
 
-<ion-content padding class="bg">
+<ion-content>
+  <img class="header-logo" src="/assets/img/logo.png" alt="" />
+  <div class="wrapper">
 
-  <div class="logo">
-    <img src="/assets/img/logo.png" alt="" />
-  </div>
-
-  <ion-card class="transparant">
-    <ion-card-header class="transparant">
-      <span class="bgblue white">YOUR DETAILS</span>
-    </ion-card-header>
-    <ion-card-content class="semitransparant">
-      <span class="white small">USER:</span><span class="white big">{{participant.name}}</span><br />
-      <span class="white small">AGE: </span><span class="white medium">{{participant.age}}</span><br />
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card class="transparant">
-    <ion-card-header class="transparant">
-      <span class="bgred white">CURRENT PENSION STATUS</span>
-    </ion-card-header>
-    <ion-card-content class="semitransparant">
-      <div>
-        <div>
-          <span class="white small">ENTITLEMENT AT AGE 67</span><br />
-          <span class="white big" *ngIf="showYearly">&euro;{{pensionServiceProvider.currentEntitlementPerYear}},-</span>
-          <span class="white big" *ngIf="!showYearly">&euro;{{pensionServiceProvider.currentEntitlementPerMonth}},-</span>
-          <br />
+    <!-- Personal data card -->
+    <ion-card class="transparant">
+      <ion-card-header class="transparant">
+        <div class="section-label bgblue white">YOUR DETAILS</div>
+      </ion-card-header>
+      <ion-card-content class="semitransparant">
+        <div class="card-row">
+          <span class="description white small">USER:</span>
+          <span class="white big">{{participant.name}}</span>
         </div>
-        <div>
-          <span class="white small pullleft">MONTHLY</span>
-          <ion-item class="pullleft">
-            <ion-toggle [(ngModel)]="showYearly" checked="false"></ion-toggle>
-          </ion-item>
-          <span class="white small pullleft">YEARLY</span>
+        <div class="card-row">
+          <span class="description white small">AGE:</span>
+          <span class="age white medium">{{participant.age}} years old</span>
         </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Current pension card -->
+    <ion-card class="transparant">
+      <ion-card-header class="transparant">
+        <div class="section-label bgred white">CURRENT PENSION STATUS</div>
+      </ion-card-header>
+      <ion-card-content class="semitransparant">
+        <div>
+            <span class="white small">ENTITLEMENT AT AGE 67</span>
+
+            <div class="card-row space-between">
+              <span class="white big" *ngIf="showYearly">&euro;{{pensionServiceProvider.currentEntitlementPerYear}},-</span>
+              <span class="white big" *ngIf="!showYearly">&euro;{{pensionServiceProvider.currentEntitlementPerMonth}},-</span>
+            
+              <!-- Toggle -->
+              <div class="toggle">
+                <span class="white small">MONTHLY</span>
+                <ion-item>
+                  <ion-toggle [(ngModel)]="showYearly" checked="false"></ion-toggle>
+                </ion-item>
+                <span class="white small">YEARLY</span>
+              </div>
+
+            </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Timeline -->
+    <div class="age-indicator">
+      <div class="balloon first bgblue">
+        <span>Started</span>
       </div>
-    </ion-card-content>
-  </ion-card>
+      <div class="balloon second bgorange">
+        <span>You are here</span>
+      </div>
+      <div class="balloon third bgred">
+        <span>Age 65</span>
+      </div>
+      <div class="timeline">
+        <span class="dot first"></span>
+        <span class="dot second"></span>
+        <span class="dot third"></span>
+      </div>
+    </div>
+    <!--<ion-item>-->
+      <!--<ion-range min="55" max="67" (ionChange)="changeAge()" [(ngModel)]="pensionServiceProvider.age" color="secondary">-->
+        <!--<ion-label range-left>55</ion-label>-->
+        <!--<ion-label range-right>67</ion-label>-->
+      <!--</ion-range>-->
+    <!--</ion-item>-->
+    <!--<br /><br />-->
 
-  <ion-card class="transparant">
-    <ion-card-header class="transparant">
-      <span class="bgorange white">PERSONAL BUDGET</span>
-    </ion-card-header>
-    <ion-card-content class="semitransparant">
-      <span class="white big">&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</span><br />
-      <span class="white small">MAXIMUM</span>
-      <ion-item>
-        <ion-range min="0" pin="true" snaps="true" step="100" max="{{pensionServiceProvider.maxPossibleLumpsum}}" (ionChange)="changeLumpsum()" [(ngModel)]="lumpsum" color="secondary">
-          <ion-label range-left>&euro; 0</ion-label>
-          <ion-label range-right>&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</ion-label>
-        </ion-range>
-      </ion-item>
-      <span class="white small"> YOUR NEW ENTITLEMENT AT 67</span><br />
-      <span class="white medium" *ngIf="showYearly">&euro;{{pensionServiceProvider.newEntitlementPerYear}}</span>
-      <span class="white medium" *ngIf="!showYearly">&euro;{{pensionServiceProvider.newEntitlementPerMonth}}</span>
-      <button class="pullright" ion-button color="grey" (click)="continue()">CONTINUE</button>
-    </ion-card-content>
-  </ion-card>
+    <!-- Personal budget card -->
+    <ion-card class="transparant">
+      <ion-card-header class="transparant">
+        <div class="section-label bgorange white">PERSONAL BUDGET</div>
+      </ion-card-header>
+      <ion-card-content class="semitransparant">
+        <span class="white big">&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</span>
+        <span class="white small">MAXIMUM</span>
+        <ion-item>
+          <ion-range min="0" pin="true" max="{{pensionServiceProvider.maxPossibleLumpsum}}" (ionChange)="changeLumpsum()" [(ngModel)]="lumpsum" color="secondary">
+            <ion-label range-left>&euro;0</ion-label>
+            <ion-label range-right>&euro;{{pensionServiceProvider.maxPossibleLumpsum}},-</ion-label>
+          </ion-range>
+        </ion-item>
+        <span class="white small"> YOUR NEW ENTITLEMENT AT 67</span>
+        <span class="white big" *ngIf="showYearly">&euro;{{pensionServiceProvider.newEntitlementPerYear}}</span>
+        <span class="white big" *ngIf="!showYearly">&euro;{{pensionServiceProvider.newEntitlementPerMonth}}</span>
+        <button class="pullright" ion-button color="grey" (click)="continue()">CONTINUE</button>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <!--<br />-->
+  <!--lumpsum: &euro;{{lumpsum}}-->
+  <!--<br />-->
+  <!--current total pension amount: &euro;{{pensionServiceProvider.currentTotalPensionAmount}}-->
+  <!--<br />-->
+  <!--new total pension amount: &euro;{{pensionServiceProvider.newTotalPensionAmount}}-->
+  <!--<br />-->
+  <!--your new entitlement at 67 per year: &euro;{{pensionServiceProvider.newEntitlementPerYear}}-->
+  <!--<br />-->
+  <!--your new entitlement at 67 per month: &euro;{{pensionServiceProvider.newEntitlementPerMonth}}-->
 </ion-content>
