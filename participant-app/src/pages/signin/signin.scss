@@ -1,0 +1,30 @@
+page-signin {
+
+  text-align: center;
+
+  .bg{
+    background-image: url('../assets/img/bg-1.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .logo{
+  }
+
+
+  h1, h2{
+    color: white;
+  }
+
+  .signin{
+    margin: auto;
+    padding:30px;
+    width: 350px;
+    background:rgba(80,80,80,0.75);
+    border-radius:20px;
+  }
+
+  .signin img{
+    width: 300px;
+  }
+}
