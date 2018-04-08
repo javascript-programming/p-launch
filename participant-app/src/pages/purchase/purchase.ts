@@ -39,7 +39,8 @@ export class PurchasePage {
           });
 
           loader2.onDidDismiss(() => {
-              this.navCtrl.popToRoot();
+              this.navCtrl.setRoot('HomePage');
+              // this.navCtrl.popToRoot();
           });
 
           loader2.present();
