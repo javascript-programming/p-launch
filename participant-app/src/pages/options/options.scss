@@ -1,7 +1,14 @@
 page-options {
   .bg{
-    background-image: url('/assets/img/bg-1.jpeg');
+    background-image: url('../assets/img/bg-1.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
   }
+  .logo{
+    text-align: center;
+  }
+  h1, h2, h3, h4, h5, h6{
+    color: white;
+  }
+
 }

@@ -28,8 +28,13 @@ export class OptionsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad OptionsPage');
   }
-  ionViewDidEnter() {
-
+  ionViewCanEnter() {
+      if (!this.navParams.get('go')) {
+          setTimeout(() => {
+              this.navCtrl.setRoot('HomePage');
+          }, 0);
+      return false;
+    }
   }
 
 }
