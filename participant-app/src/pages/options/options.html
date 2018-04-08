@@ -16,11 +16,10 @@
 <ion-content padding class="bg">
 
   <div class="logo">
-    <img src="./assets/img/logo.png" />
+    <img src="/assets/img/logo.png" alt="" />
   </div>
 
-
-  <ion-card *ngFor="let option of options">
+  <ion-card *ngFor="let option of options" (click)="selectOption(option.id)">
 
     <ion-item>
       <ion-icon name="football" item-start large></ion-icon>

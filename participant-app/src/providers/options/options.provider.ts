@@ -1,24 +1,19 @@
-import {Injectable} from "@angular/core";
-import {OPTIONS} from "./option-list";
+import { Injectable } from '@angular/core';
+import { OPTIONS } from './option-list';
 
 @Injectable()
 export class OptionsProvider {
-    private options: any;
+  private options: any;
 
-    constructor() {
-        this.options = OPTIONS;
-    }
+  constructor() {
+    this.options = OPTIONS;
+  }
 
-    getAllOptions() {
-        return this.options;
-    }
+  getAllOptions() {
+    return this.options;
+  }
 
-    getOption(id) {
-        for (var i = 0; i < this.options.length; i++) {
-            if (this.options[i].id === parseInt(id)) {
-                return this.options[i];
-            }
-        }
-        return null;
-    }
+  getOption(id) {
+    return this.options.filter(option => option.id === parseInt(id, 10));
+  }
 }
