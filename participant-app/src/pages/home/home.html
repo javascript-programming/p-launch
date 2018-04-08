@@ -24,8 +24,8 @@
       <span class="bgblue white">YOUR DETAILS</span>
     </ion-card-header>
     <ion-card-content class="semitransparant">
-      <span class="white small">USER:</span><span class="white big">{{participant.name}}</span><br />
-      <span class="white small">AGE: </span><span class="white medium">{{participant.age}}</span><br />
+      <span class="white small">USER </span>&nbsp;<span class="white big">{{participant.name}}</span><br />
+      <span class="white small">AGE </span>&nbsp;<span class="white medium">{{participant.age}}</span><br />
     </ion-card-content>
   </ion-card>
 
@@ -37,16 +37,15 @@
       <div>
         <div>
           <span class="white small">ENTITLEMENT AT AGE 67</span><br />
-          <span class="white big" *ngIf="showYearly">&euro;{{pensionServiceProvider.currentEntitlementPerYear}},-</span>
-          <span class="white big" *ngIf="!showYearly">&euro;{{pensionServiceProvider.currentEntitlementPerMonth}},-</span>
+          <span class="white big" *ngIf="showYearly">&euro; {{pensionServiceProvider.currentEntitlementPerYear}} per year</span>
+          <span class="white big" *ngIf="!showYearly">&euro; {{pensionServiceProvider.currentEntitlementPerMonth}} per month</span>
           <br />
         </div>
         <div>
-          <span class="white small pullleft">MONTHLY</span>
-          <ion-item class="pullleft">
+          <ion-item>
+            <ion-label>PER MONTH / PER YEAR</ion-label>
             <ion-toggle [(ngModel)]="showYearly" checked="false"></ion-toggle>
           </ion-item>
-          <span class="white small pullleft">YEARLY</span>
         </div>
       </div>
     </ion-card-content>
@@ -57,15 +56,22 @@
       <span class="bgorange white">PERSONAL BUDGET</span>
     </ion-card-header>
     <ion-card-content class="semitransparant">
-      <span class="white big">&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</span><br />
+      <span class="white big">&euro; {{pensionServiceProvider.maxPossibleLumpsum}}</span><br />
       <span class="white small">MAXIMUM</span>
+
       <ion-item>
         <ion-range min="0" pin="true" snaps="true" step="100" max="{{pensionServiceProvider.maxPossibleLumpsum}}" (ionChange)="changeLumpsum()" [(ngModel)]="lumpsum" color="secondary">
+
           <ion-label range-left>&euro; 0</ion-label>
           <ion-label range-right>&euro; {{pensionServiceProvider.maxPossibleLumpsum}},-</ion-label>
         </ion-range>
       </ion-item>
-      <span class="white small"> YOUR NEW ENTITLEMENT AT 67</span><br />
+
+      <span class="white small">SELECTED AMOUNT</span>
+      <span class="white big">&euro; {{lumpsum}}</span>
+
+      <br />
+      <span class="white small"> YOUR NEW ENTITLEMENT AT 67 </span><br />
       <span class="white medium" *ngIf="showYearly">&euro;{{pensionServiceProvider.newEntitlementPerYear}}</span>
       <span class="white medium" *ngIf="!showYearly">&euro;{{pensionServiceProvider.newEntitlementPerMonth}}</span>
       <button class="pullright" ion-button color="grey" (click)="continue()">CONTINUE</button>

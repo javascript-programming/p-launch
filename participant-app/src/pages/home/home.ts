@@ -46,7 +46,7 @@ export class HomePage {
     }, 0);
   }
 
-  continue() {
-    this.navCtrl.push('OptionsPage', {});
+  continue(){
+    this.navCtrl.push("OptionsPage", {go: true});
   }
 }
