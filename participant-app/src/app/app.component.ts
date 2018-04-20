@@ -29,7 +29,7 @@ export class MyApp {
             smartAudioProvider.preload('home', 'assets/audio/home.mp3');
 
             // Call service to load blockchain accounts
-            // this.web3Service.init();
+            this.web3Service.init();
         });
     }
 

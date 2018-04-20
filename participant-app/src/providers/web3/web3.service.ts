@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-const contract = require('truffle-contract');
 const prePensionArtifacts = require('../../../../build/contracts/PrePension.json');
 const Web3 = require('web3');
 
@@ -11,7 +10,7 @@ declare var window: any;
 export class Web3Service {
   private web3: any;
 
-  private PrePension = contract(prePensionArtifacts);
+  private PrePension: any;
   private PrePensionContract: any;
   private Accounts;
   private gas = 6721970;
@@ -19,57 +18,151 @@ export class Web3Service {
   constructor() {
   }
 
-  init() {
-    this.PrePension.setProvider(this.web3.currentProvider);
+  init () {
+    let me = this,
+      abi = prePensionArtifacts.abi,
+      network = prePensionArtifacts.networks['613203328']
 
-    this.PrePension.deployed().then(instance => {
-      this.PrePensionContract = instance;
-      window.contract = instance;
-      this.web3.eth.getAccounts((err, acc) => {
-        this.Accounts = acc;
+      me.web3 = new Web3('ws://5.157.85.76:8546')
+      me.fetchAccounts().then(acc => {
+        me.Accounts = acc
+        me.PrePension = new me.web3.eth.Contract(abi, network.address);
+        me.PrePensionContract = me.PrePension.methods;
+        me.getSuppliers().then(result => {
+        })
+      })
+  }
 
-      });
+  fetchAccounts () {
+    let me = this
+    return new Promise((resolve, reject) => {
+      me.web3.eth.getAccounts().then(acc => {
+        resolve(acc)
+      }).catch(reject)
     });
   }
 
-  addDummyData(callback) {
-    this.PrePensionContract.addPension(this.Accounts[1], 'APG', { from: this.Accounts[1], gas: this.gas }).then(() =>
-      callback()
-    );
-
+  getAccounts () {
+    return this.Accounts
   }
 
-  getAccounts(): Observable<any> {
-    return Observable.create(observer => {
-      this.web3.eth.getAccounts((err, accs) => {
-        if (err != null) {
-          observer.error('There was an error fetching your accounts.');
-        }
+  getSupplier (id) {
+    let me = this
 
-        if (accs.length === 0) {
-          observer.error("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-        }
-
-        observer.next(accs);
-        observer.complete();
-      });
-    });
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.getSupplierById(id).call().then(result => {
+        resolve({
+          name : me.web3.utils.toUtf8(result[0])
+        })
+      }).catch(err => {
+        var e = err
+      })
+    })
   }
 
+  getSuppliers () {
+    let me = this
+    let numberOfSuppliers = 0
+    let suppliers = []
 
-  checkAndInstantiateWeb3 = () => {
-    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-    if (typeof window.web3 !== 'undefined') {
-      console.warn(
-        "Using web3 detected from external source. If you find that your accounts don't appear or you have 0 MetaCoin, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask"
-      );
-      // Use Mist/MetaMask's provider
-      this.web3 = new Web3(window.web3.currentProvider);
-    } else {
-      console.warn(
-        "No web3 detected. Falling back to ${environment.HttpProvider}. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask"
-      );
-      this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
-    }
-  };
+    return new Promise((resolve, reject) => {
+      let fetchSupplier = (id) => {
+        me.getSupplier(id).then(result => {
+          suppliers.push(result)
+          numberOfSuppliers -= 1
+          if (numberOfSuppliers > 0) {
+            fetchSupplier(numberOfSuppliers)
+          } else {
+            resolve(suppliers)
+          }
+        })
+      }
+
+      me.PrePensionContract.getNumberOfSuppliers().call().then(number => {
+        numberOfSuppliers = parseInt(number)
+        fetchSupplier(numberOfSuppliers)
+      })
+    })
+  }
+
+  getParticipant (name) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.getParticipant(name).call().then(result => {
+        resolve({
+          name : me.web3.utils.toUtf8(result[0]),
+          balance : parseInt(result[1])
+        })
+      })
+    })
+  }
+
+  getPension (name) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.getPension(name).call().then(result => {
+        resolve({
+          name : me.web3.utils.toUtf8(result[0])
+        })
+      })
+    })
+  }
+
+  addDummyData (callback) {
+    let me = this
+    me.web3.eth.personal.unlockAccount(me.Accounts[1], '123').then(function () {
+      me.addPension(me.Accounts[1], 'APG', me.Accounts[1]).then(transaction => {
+        me.addSupplier(me.Accounts[2], 'Rug', me.Accounts[1]).then(transaction => {
+          me.addSupplier(me.Accounts[3], 'Reaal', me.Accounts[1]).then(transaction => {
+            me.addSupplier(me.Accounts[4], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
+              me.addParticipant(me.Accounts[0], 'Bart de Jong', me.Accounts[1]).then(transaction => {
+                callback()
+              })
+            })
+          })
+        })
+      })
+    })
+  }
+
+  addPension (account, name, from) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.addPension(account, name, { from: from, gas: me.gas }).then(transaction => {
+        resolve(transaction)
+      }).catch(err => {
+        resolve(err)
+      })
+    })
+  }
+
+  addSupplier (account, name, from) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.PrePensionContract.addSupplier(account, name, { from: from, gas: me.gas }).then(transaction => {
+        resolve(transaction)
+      }).catch(err => {
+        resolve(err)
+      })
+    })
+  }
+
+  addParticipant (account, name, from) {
+    let me = this
+
+    return new Promise((resolve, reject) => {
+      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
+        me.PrePensionContract.addParticipant(account, name, { from: from, gas: me.gas }).then(transaction => {
+          resolve(transaction)
+        }).catch(err => {
+          resolve(err)
+        })
+      })
+    })
+  }
+
 }
