@@ -25,7 +25,7 @@ export class PensionServiceProvider {
   calculate(participant, lumpsum) {
       this.age = participant.age;
       this.factor = participant.factor;
-      this.currentTotalPensionAmount = this.newTotalPensionAmount = participant.totalPensionAmount;
+      this.currentTotalPensionAmount = this.newTotalPensionAmount = participant.data.balance;
       this.maxPossibleLumpsum = participant.maxLumpsumPercentage * this.currentTotalPensionAmount;
       this.currentEntitlementPerYear = Math.round(this.currentTotalPensionAmount / this.factor);
       this.currentEntitlementPerMonth = Math.round(this.currentEntitlementPerYear / 12);

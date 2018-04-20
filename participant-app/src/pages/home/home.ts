@@ -5,6 +5,7 @@ import { MockProvider } from '../../providers/mock/mock.provider';
 import { PensionServiceProvider } from '../../providers/pension-service/pension-service';
 import { PurchaseProvider } from '../../providers/purchase/purchase.provider';
 import { SmartAudioProvider } from '../../providers/smart-audio/smart-audio';
+import {Web3Service} from "../../providers/web3/web3.service";
 
 @IonicPage()
 @Component({
@@ -22,13 +23,21 @@ export class HomePage {
     public mockProvider: MockProvider,
     public pensionServiceProvider: PensionServiceProvider,
     public smartAudioProvider: SmartAudioProvider,
-    private purchaseProvider: PurchaseProvider
+    private purchaseProvider: PurchaseProvider,
+    public web3Service: Web3Service
   ) {
     this.lumpsum = 5000;
-    this.participant = this.mockProvider.getParticipant(1);
-    this.showYearly = false;
 
-    this.changeLumpsum();
+    //get mock participant
+    this.participant = this.mockProvider.getParticipant(1);
+
+    //load participant data from blockchain and add to partipant
+    this.web3Service.getParticipant(this.web3Service.web3.utils.asciiToHex(this.participant.name) ).then((data) => {
+        this.participant.data = data;
+        this.changeLumpsum();
+    });
+
+    this.showYearly = false;
   }
 
   changeLumpsum() {

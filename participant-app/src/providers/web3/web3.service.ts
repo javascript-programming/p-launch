@@ -8,7 +8,7 @@ declare var window: any;
 
 @Injectable()
 export class Web3Service {
-  private web3: any;
+  public web3: any;
 
   private PrePension: any;
   private PrePensionContract: any;

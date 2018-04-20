@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import contract from 'truffle-contract';
 
 const prePensionArtifacts = require('../../../../build/contracts/PrePension.json');
 import { MockProvider } from '../../providers/mock/mock.provider';
@@ -17,7 +16,6 @@ export class TestPage {
   participant: any;
   suppliers: any;
 
-  private PrePension = contract(prePensionArtifacts);
   private PrePensionContract;
   private accounts;
   private account;
@@ -38,38 +36,38 @@ export class TestPage {
   start() {
     this.setStatus('Start');
 
-    console.log(this.PrePension);
+    // console.log(this.PrePension);
 
-    this.PrePension.deployed().then(
-      instance => {
-        this.PrePensionContract = instance;
-
-        this.setStatus('PrePension contract set');
-
-        this.web3Service.getAccounts().subscribe(
-          accs => {
-            if (accs.length === 0) {
-              this.setStatus("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-              return;
-            }
-
-            this.accounts = accs;
-            this.account = this.accounts[0];
-
-            this.refreshBalance();
-          },
-          err => {
-            if (err != null) {
-              this.setStatus('There was an error fetching your accounts.');
-              return;
-            }
-          }
-        );
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    // this.PrePension.deployed().then(
+    //   instance => {
+    //     this.PrePensionContract = instance;
+    //
+    //     this.setStatus('PrePension contract set');
+    //
+    //     this.web3Service.getAccounts().subscribe(
+    //       accs => {
+    //         if (accs.length === 0) {
+    //           this.setStatus("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+    //           return;
+    //         }
+    //
+    //         this.accounts = accs;
+    //         this.account = this.accounts[0];
+    //
+    //         this.refreshBalance();
+    //       },
+    //       err => {
+    //         if (err != null) {
+    //           this.setStatus('There was an error fetching your accounts.');
+    //           return;
+    //         }
+    //       }
+    //     );
+    //   },
+    //   error => {
+    //     console.error(error);
+    //   }
+    // );
   }
 
   refreshBalance() {
