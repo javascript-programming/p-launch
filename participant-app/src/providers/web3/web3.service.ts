@@ -55,7 +55,7 @@ export class Web3Service {
           name : me.web3.utils.toUtf8(result[0])
         })
       }).catch(err => {
-        var e = err
+        reject(err)
       })
     })
   }
