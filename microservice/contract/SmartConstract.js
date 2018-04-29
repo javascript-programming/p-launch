@@ -116,17 +116,17 @@ class SmartContract {
   addDummyData (callback) {
     let me = this
     me.web3.eth.personal.unlockAccount(me.Accounts[1], '123').then(function () {
-      me.addPension(me.Accounts[1], 'APG', me.Accounts[1]).then(transaction => {
-        me.addSupplier(me.Accounts[2], 'Rug', me.Accounts[1]).then(transaction => {
-          me.addSupplier(me.Accounts[3], 'Reaal', me.Accounts[1]).then(transaction => {
-            me.addSupplier(me.Accounts[4], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
-              me.addParticipant(me.Accounts[0], 'Bart de Jong', me.Accounts[1]).then(transaction => {
-                callback()
-              })
-            })
-          })
-        })
-      })
+      // me.addPension(me.Accounts[1], 'APG', me.Accounts[1]).then(transaction => {
+      //   me.addSupplier(me.Accounts[2], 'Rug', me.Accounts[1]).then(transaction => {
+      //     me.addSupplier(me.Accounts[3], 'Reaal', me.Accounts[1]).then(transaction => {
+      //       me.addSupplier(me.Accounts[4], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
+      //         me.addParticipant(me.Accounts[0], 'Bart de Jong', me.Accounts[1]).then(transaction => {
+      //           callback()
+      //         })
+      //       })
+      //     })
+      //   })
+      // })
     })
   }
 

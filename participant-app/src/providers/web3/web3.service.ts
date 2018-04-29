@@ -26,10 +26,13 @@ export class Web3Service {
       me.web3 = new Web3('ws://5.157.85.76:8546')
       me.fetchAccounts().then(acc => {
         me.Accounts = acc
-        me.PrePension = new me.web3.eth.Contract(abi, network.address);
-        me.PrePensionContract = me.PrePension.methods;
-        me.getSuppliers().then(result => {
-        })
+
+          me.PrePension = new me.web3.eth.Contract(abi, network.address, {
+            gas: me.gas,
+            gasPrice : '1000000000'
+          });
+
+          me.PrePensionContract = me.PrePension.methods;
       })
   }
 
@@ -112,29 +115,35 @@ export class Web3Service {
 
   addDummyData (callback) {
     let me = this
-    me.web3.eth.personal.unlockAccount(me.Accounts[1], '123').then(function () {
       me.addPension(me.Accounts[1], 'APG', me.Accounts[1]).then(transaction => {
         me.addSupplier(me.Accounts[2], 'Rug', me.Accounts[1]).then(transaction => {
           me.addSupplier(me.Accounts[3], 'Reaal', me.Accounts[1]).then(transaction => {
             me.addSupplier(me.Accounts[4], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
               me.addParticipant(me.Accounts[0], 'Bart de Jong', me.Accounts[1]).then(transaction => {
-                callback()
+                me.mint('APG', 'Bart de Jong', 140000, me.Accounts[1]).then(transaction => {
+                  callback()
+                })
               })
             })
           })
         })
+      }).catch(err => {
+        callback(err, false)
       })
-    })
   }
 
   addPension (account, name, from) {
     let me = this
-
     return new Promise((resolve, reject) => {
-      me.PrePensionContract.addPension(account, name, { from: from, gas: me.gas }).then(transaction => {
-        resolve(transaction)
-      }).catch(err => {
-        resolve(err)
+      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
+          me.PrePensionContract.addPension(account, me.web3.utils.asciiToHex(name)).send({
+            from: from,
+            value : 0
+          }).then(transaction => {
+            resolve(transaction)
+          }).catch(err => {
+            reject(err)
+          })
       })
     })
   }
@@ -143,10 +152,12 @@ export class Web3Service {
     let me = this
 
     return new Promise((resolve, reject) => {
-      me.PrePensionContract.addSupplier(account, name, { from: from, gas: me.gas }).then(transaction => {
-        resolve(transaction)
-      }).catch(err => {
-        resolve(err)
+      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
+        me.PrePensionContract.addSupplier(account, me.web3.utils.asciiToHex(name)).send({from: from}).then(transaction => {
+          resolve(transaction)
+        }).catch(err => {
+          reject(err)
+        })
       })
     })
   }
@@ -156,13 +167,29 @@ export class Web3Service {
 
     return new Promise((resolve, reject) => {
       me.web3.eth.personal.unlockAccount(from, '123').then(function () {
-        me.PrePensionContract.addParticipant(account, name, { from: from, gas: me.gas }).then(transaction => {
+        me.PrePensionContract.addParticipant(account, me.web3.utils.asciiToHex(name)).send({ from: from }).then(transaction => {
           resolve(transaction)
         }).catch(err => {
-          resolve(err)
+          reject(err)
         })
       })
     })
+  }
+
+  mint (pension, participant, balance, from) {
+
+    let me = this;
+
+    return new Promise((resolve, reject) => {
+      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
+        me.PrePensionContract.mint(me.web3.utils.asciiToHex(pension),
+          me.web3.utils.asciiToHex(participant), balance).send({ from : from }).then(transaction => {
+            resolve(transaction);
+        }).catch(err => {
+          reject(err);
+        });
+      });
+    });
   }
 
 }

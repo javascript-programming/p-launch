@@ -36,7 +36,7 @@ contract PrePension is PrePensionBase {
 
   function addPension (address _pension, bytes32 _id) public pensionNotExist(_id) {
     PrePensionLib.addPension(data, _pension, _id);
-    emit participantAdded(_id);
+    emit pensionAdded(_id);
   }
 
   function getPension (bytes32 _id) public view returns (
