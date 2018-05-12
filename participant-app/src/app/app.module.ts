@@ -12,7 +12,7 @@ import { OptionsProvider } from "../providers/options/options.provider";
 import { PensionServiceProvider } from '../providers/pension-service/pension-service';
 import {PurchaseProvider} from "../providers/purchase/purchase.provider";
 import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
-import { Web3Service } from '../providers/web3/web3.service';
+import { Web3Service } from '../providers/web3/Web3Service';
 
 @NgModule({
   declarations: [

@@ -1,4 +1,4 @@
-import { Web3Service } from "./web3.service";
+import { Web3Service } from "./Web3Service";
 
 export class Participant {
 
@@ -8,11 +8,11 @@ export class Participant {
     this.service = service
   }
 
-  getParticipant (name) {
+  public getParticipant (name) {
     return this.service.call('getParticipant', [name])
   }
 
-  addParticipant (account, name, from) {
+  public addParticipant (account, name, from) {
     return this.service.send('addParticipant', [account, name], from, '123')
   }
 

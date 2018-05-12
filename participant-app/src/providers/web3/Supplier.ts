@@ -1,4 +1,4 @@
-import { Web3Service } from "./web3.service";
+import { Web3Service } from "./Web3Service";
 
 export class Supplier {
 
@@ -8,11 +8,11 @@ export class Supplier {
     this.service = service
   }
 
-  getSupplier (id) {
+  public getSupplier (id) {
     return this.service.call('getSupplier', [id]);
   }
 
-  getSuppliers () {
+  public getSuppliers () {
     let me = this
     let numberOfSuppliers = 0
     let suppliers = []
@@ -37,7 +37,7 @@ export class Supplier {
     })
   }
 
-  addSupplier (account, name, from) {
+  public addSupplier (account, name, from) {
     return this.service.send('addSupplier', [account, name], from, '123')
   }
 

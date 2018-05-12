@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 
 import { SmartAudioProvider } from '../providers/smart-audio/smart-audio';
-import { Web3Service } from '../providers/web3/web3.service';
+import { Web3Service } from '../providers/web3/Web3Service';
 
 @Component({
   templateUrl: 'app.html',

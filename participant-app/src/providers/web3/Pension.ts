@@ -1,4 +1,4 @@
-import { Web3Service } from './web3.service'
+import { Web3Service } from './Web3Service'
 
 export class Pension {
 
