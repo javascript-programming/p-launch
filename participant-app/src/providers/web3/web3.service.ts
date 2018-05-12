@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Participant } from './Participant'
 
 const prePensionArtifacts = require('../../../../build/contracts/PrePension.json');
 const Web3 = require('web3');
@@ -12,28 +13,34 @@ export class Web3Service {
 
   private PrePension: any;
   private PrePensionContract: any;
-  public Accounts;
-  private gas = 6721970;
-  public contractFunctions: any;
+  public Accounts: any;
+
+  private contractFunctions: any;
+  public Participant: Participant
+
+  private network: string = '613203328';
+  private web3Url: string = 'ws://5.157.85.76:8546';
+  private defaultGas: number = 6721970;
+  private defaultGasPrice: string = '1000000000';
 
   constructor() {
   }
 
-  init () {
+  public init () {
     let me = this,
       abi = prePensionArtifacts.abi,
-      network = prePensionArtifacts.networks['613203328']
+      network = prePensionArtifacts.networks[me.network]
 
-      me.web3 = new Web3('ws://5.157.85.76:8546')
+      me.web3 = new Web3(me.web3Url)
 
       me.contractFunctions = {};
 
-      me.fetchAccounts().then(acc => {
+      me.getAccounts().then(acc => {
           me.Accounts = acc
 
           me.PrePension = new me.web3.eth.Contract(abi, network.address, {
-            gas       : me.gas,
-            gasPrice  : '1000000000'
+            gas       : me.defaultGas,
+            gasPrice  : me.defaultGasPrice
           });
 
           me.PrePensionContract = me.PrePension.methods;
@@ -42,11 +49,12 @@ export class Web3Service {
             entry.fn = me.PrePensionContract[entry.name];
             me.contractFunctions[entry.name] = entry;
           })
-          debugger
+
+          me.Participant = new Participant(me)
       })
   }
 
-  fetchAccounts () {
+  private getAccounts () {
     let me = this
     return new Promise((resolve, reject) => {
       me.web3.eth.getAccounts().then(acc => {
@@ -55,7 +63,7 @@ export class Web3Service {
     });
   }
 
-  prepareArgs (fn, args) {
+  private prepareArgs (fn, args) {
 
     const me = this;
 
@@ -68,7 +76,7 @@ export class Web3Service {
     })
   }
 
-  prepareOutput (fn, args) {
+  private prepareOutput (fn, args) {
 
     const me = this;
 
@@ -90,12 +98,12 @@ export class Web3Service {
     return args.length === 1 ? args[0] : args
   }
 
-  send(fn, args, from) {
+  public send (fn, args, from, password) {
 
     const me = this;
 
     return new Promise((resolve, reject) => {
-      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
+      me.web3.eth.personal.unlockAccount(from, password).then(function () {
           me.contractFunctions[fn].fn.apply(me, me.prepareArgs(fn, args)).send({ from : from }).then(transaction => {
             resolve(transaction)
           }).catch(err => {
@@ -105,7 +113,7 @@ export class Web3Service {
     })
   }
 
-  call(fn, args) {
+  public call (fn, args) {
 
     const me = this;
 
@@ -117,24 +125,4 @@ export class Web3Service {
         })
       })
   }
-
-  // addDummyData (callback) {
-  //   let me = this
-  //     me.addPension(me.Accounts[1], 'APG', me.Accounts[1]).then(transaction => {
-  //       me.addSupplier(me.Accounts[2], 'Rug', me.Accounts[1]).then(transaction => {
-  //         me.addSupplier(me.Accounts[3], 'Reaal', me.Accounts[1]).then(transaction => {
-  //           me.addSupplier(me.Accounts[4], 'Solar Panel .inc', me.Accounts[1]).then(transaction => {
-  //             me.addParticipant(me.Accounts[0], 'Bart de Jong', me.Accounts[1]).then(transaction => {
-  //               me.mint('APG', 'Bart de Jong', 140000, me.Accounts[1]).then(transaction => {
-  //                 callback()
-  //               })
-  //             })
-  //           })
-  //         })
-  //       })
-  //     }).catch(err => {
-  //       callback(err, false)
-  //     })
-  // }
-
 }

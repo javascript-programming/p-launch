@@ -1,27 +1,15 @@
-import {Web3Service} from "./web3.service";
+import { Web3Service } from "./web3.service";
 
 export class Supplier {
 
-  private contract:any = null
   private service:any = null
 
   constructor (service: Web3Service) {
     this.service = service
-    this.contract = service.PrePensionContract;
   }
 
   getSupplier (id) {
-    let me = this
-
-    return new Promise((resolve, reject) => {
-      me.PrePensionContract.getSupplierById(id).call().then(result => {
-        resolve({
-          name : me.web3.utils.toUtf8(result[0])
-        })
-      }).catch(err => {
-        reject(err)
-      })
-    })
+    return this.service.call('getSupplier', [id]);
   }
 
   getSuppliers () {
@@ -42,7 +30,7 @@ export class Supplier {
         })
       }
 
-      me.PrePensionContract.getNumberOfSuppliers().call().then(number => {
+      this.service.call('getNumberOfSuppliers').then(number => {
         numberOfSuppliers = parseInt(number)
         fetchSupplier(numberOfSuppliers)
       })
@@ -50,17 +38,7 @@ export class Supplier {
   }
 
   addSupplier (account, name, from) {
-    let me = this
-
-    return new Promise((resolve, reject) => {
-      me.web3.eth.personal.unlockAccount(from, '123').then(function () {
-        me.PrePensionContract.addSupplier(account, me.web3.utils.asciiToHex(name)).send({from: from}).then(transaction => {
-          resolve(transaction)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    })
+    return this.service.send('addSupplier', [account, name], from, '123')
   }
 
 }
