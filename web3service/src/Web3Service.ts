@@ -72,6 +72,14 @@ export class Web3Service {
     return [];
   }
 
+  private getFunctionOutputs (name: string): object[] {
+    if (this.functionExists(name)) {
+      return this.contractFunctions[name].outputs.slice()
+    }
+
+    return [];
+  }
+
   private prepareArgs (fn: string, args: any[]): any[] {
 
     const me = this;
@@ -94,23 +102,35 @@ export class Web3Service {
   private prepareOutput (fn, args): any {
 
     const me = this;
+    const outputs = me.getFunctionOutputs(fn)
 
-    if (!Array.isArray(args)) {
-       args = [args]
-     }
+    if (me.functionIsView(fn)) {
 
-     args = args.map(arg => {
-       switch (typeof arg) {
-         case 'string':
-           return me.web3.utils.toUtf8(arg);
-         case 'number':
-           return parseInt(arg);
-       }
+      if (!Array.isArray(args)) {
+        args = [args]
+      }
 
-       return arg;
-     })
+      let result = {}
 
-    return args.length === 1 ? args[0] : args
+      args = args.forEach((arg, index) => {
+
+        let output = outputs[index];
+
+        switch (output['type']) {
+          case 'bytes32':
+             result[output['name']] = me.web3.utils.toUtf8(arg);
+             break;
+          case 'number':
+            result[output['name']] = arg.toNumber();
+            break
+        }
+      })
+
+      let keys = Object.keys(result)
+      return keys.length > 1 ? result : result[keys[0]]
+    } else {
+      return args.length === 1 ? args[0] : args
+    }
   }
 
   public send (fn: string, args: any[], from: string, password: string): Promise<object> {
