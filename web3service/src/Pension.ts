@@ -16,11 +16,11 @@ export class Pension {
     return this.service.call('getPensionBalance', [participant, pension]);
   }
 
-  addPension (account, name, from) {
+  addPension (account: string, name: string, from: string) {
     return this.service.send('addPension', [account, name], from, '123')
   }
 
-  mint (pension, participant, balance, from) {
+  mint (pension: string, participant: string, balance: number, from: string) {
     return this.service.send('mint', [pension, participant, balance], from, '123');
   }
 

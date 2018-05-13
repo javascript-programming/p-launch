@@ -8,7 +8,7 @@ export class Supplier {
     this.service = service
   }
 
-  public getSupplier (id) {
+  public getSupplier (id: number) {
     return this.service.call('getSupplierById', [id]);
   }
 
@@ -36,7 +36,7 @@ export class Supplier {
     })
   }
 
-  public addSupplier (account, name, from) {
+  public addSupplier (account: string, name: string, from: string) {
     return this.service.send('addSupplier', [account, name], from, '123')
   }
 
