@@ -31,8 +31,7 @@ export class Supplier {
       }
 
       this.service.call('getNumberOfSuppliers').then(number => {
-        numberOfSuppliers = parseInt(number)
-        fetchSupplier(numberOfSuppliers)
+        fetchSupplier(number)
       })
     })
   }

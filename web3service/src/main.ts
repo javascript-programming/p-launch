@@ -47,7 +47,7 @@ function askFunction () {
           let inputs = ws.getFunctionInputs(answer),
               input, args = [];
 
-          while(input = inputs.pop()) {
+          while(input = inputs.shift()) {
             args.push(await askParam(input.name))
           }
 
