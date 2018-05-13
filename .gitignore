@@ -43,3 +43,19 @@ testem.log
 Thumbs.db
 
 
+/web3service/node_modules/
+/web3service/contracts/
+web3service/contracts
+web3service/main.js
+web3service/main.js.map
+/web3service/Participant.js
+/web3service/Pension.js
+/web3service/Supplier.js
+/web3service/Web3Service.js
+!/web3service/Participant.js.map
+!/web3service/Pension.js.map
+/web3service/Supplier.js.map
+/web3service/Web3Service.js.map
+/web3service/Participant.js.map
+/web3service/Pension.js.map
+/web3service/build/
