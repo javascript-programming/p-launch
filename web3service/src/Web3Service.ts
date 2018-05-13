@@ -1,6 +1,5 @@
 import { Participant } from './Participant'
 
-
 const prePensionArtifacts = require('./contracts/PrePension.json');
 const Web3 = require('web3');
 
