@@ -9,7 +9,7 @@ export class Supplier {
   }
 
   public getSupplier (id) {
-    return this.service.call('getSupplier', [id]);
+    return this.service.call('getSupplierById', [id]);
   }
 
   public getSuppliers () {

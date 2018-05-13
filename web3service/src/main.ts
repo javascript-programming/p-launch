@@ -20,7 +20,7 @@ function askParam (param: string): Promise<string> {
 function askAccount (): Promise<string> {
   return new Promise((resolve, reject) => {
     console.log(ws.Accounts)
-    rl.question(`What account to send from (default is ${ws.Accounts}) ? : `, (answer) => {
+    rl.question(`What account to use ? : `, (answer) => {
       resolve(answer)
     });
   })
@@ -33,6 +33,12 @@ function askFunction () {
     switch (answer) {
       case 'getAccounts' :
         console.log(ws.Accounts)
+        break;
+
+      case 'getAccountBalance' :
+        let account = await askAccount()
+        let balance = await ws.getAccountBalance(account)
+        console.log(balance)
         break;
       default:
         if (ws.functionExists(answer)) {

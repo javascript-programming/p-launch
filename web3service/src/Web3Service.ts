@@ -51,9 +51,18 @@ export class Web3Service {
       me.Participant = new Participant(me)
   }
 
-  private getAccounts () {
+  private getAccounts (): Promise<string[]> {
     let me = this
     return me.web3.eth.getAccounts()
+  }
+
+  public getAccountBalance (account: string): Promise<any> {
+    let me = this;
+    return new Promise((resolve, reject) => {
+      me.web3.eth.getBalance(account).then(result => {
+        resolve(me.web3.utils.fromWei(result))
+      }).catch(reject)
+    })
   }
 
   public functionExists (name: string): boolean {
@@ -99,29 +108,26 @@ export class Web3Service {
     })
   }
 
-  private prepareOutput (fn, args): any {
+  private prepareOutput (fn: string, args: any): any {
 
     const me = this;
     const outputs = me.getFunctionOutputs(fn)
 
     if (me.functionIsView(fn)) {
 
-      if (!Array.isArray(args)) {
-        args = [args]
-      }
-
       let result = {}
 
-      args = args.forEach((arg, index) => {
-
-        let output = outputs[index];
+      outputs.forEach((output, index) => {
 
         switch (output['type']) {
           case 'bytes32':
-             result[output['name']] = me.web3.utils.toUtf8(arg);
+             result[output['name']] = me.web3.utils.toUtf8(typeof args === 'object' ? args[output['name']] : args);
              break;
-          case 'number':
-            result[output['name']] = arg.toNumber();
+          case 'uint256':
+            result[output['name']] = parseInt(typeof args === 'object' ? args[output['name']] : args);
+            break
+          default:
+            result[output['name']] = typeof args === 'object' ? args[output['name']] : args;
             break
         }
       })
