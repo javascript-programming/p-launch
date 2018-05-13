@@ -8,8 +8,12 @@ export class Pension {
     this.service = service
   }
 
-  getPension (name) {
+  getPension (name: string) {
     return this.service.call('getPension', [name]);
+  }
+
+  getPensionBalance (participant: string, pension: string) {
+    return this.service.call('getPensionBalance', [participant, pension]);
   }
 
   addPension (account, name, from) {
