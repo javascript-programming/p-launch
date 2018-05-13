@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "systemjs": "^0.21.3",
     "web3": "^1.0.0-beta.26"
   },
   "devDependencies": {

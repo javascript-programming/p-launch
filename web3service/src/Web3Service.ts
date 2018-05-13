@@ -11,7 +11,7 @@ export class Web3Service {
 
   private PrePension: any;
   private PrePensionContract: any;
-  public Accounts: any;
+  public Accounts: string[];
 
   private contractFunctions: any;
   public Participant: Participant
@@ -56,20 +56,42 @@ export class Web3Service {
     return me.web3.eth.getAccounts()
   }
 
-  private prepareArgs (fn, args) {
+  public functionExists (name: string): boolean {
+    return !!this.contractFunctions[name]
+  }
+
+  public functionIsView (name: string): boolean {
+    return this.contractFunctions[name].stateMutability === 'view'
+  }
+
+  public getFunctionInputs (name: string): object[] {
+    if (this.functionExists(name)) {
+      return this.contractFunctions[name].inputs.slice()
+    }
+
+    return [];
+  }
+
+  private prepareArgs (fn: string, args: any[]): any[] {
 
     const me = this;
+    const inputs = me.getFunctionInputs(fn)
 
-    return args.map(arg => {
-      switch (typeof arg) {
-        case 'string':
+    if (args.length !== inputs.length)
+      throw new Error('Input params should be of length ' + inputs.length)
+
+    return args.map((arg, index) => {
+      switch (inputs[index]['type']) {
+        case 'bytes32':
             return me.web3.utils.asciiToHex(arg)
+        case 'uint256':
+            return parseInt(arg)
       }
       return arg;
     })
   }
 
-  private prepareOutput (fn, args) {
+  private prepareOutput (fn, args): any {
 
     const me = this;
 
@@ -91,29 +113,39 @@ export class Web3Service {
     return args.length === 1 ? args[0] : args
   }
 
-  public send (fn, args, from, password) {
+  public send (fn: string, args: any[], from: string, password: string): Promise<object> {
 
     const me = this;
 
     return new Promise((resolve, reject) => {
-      me.web3.eth.personal.unlockAccount(from, password).then(function () {
-          me.contractFunctions[fn].fn.apply(me, me.prepareArgs(fn, args)).send({ from : from }).then(transaction => {
+
+      if (me.functionExists(fn)) {
+        me.web3.eth.personal.unlockAccount(from, password).then(function () {
+          me.contractFunctions[fn].fn.apply(me, me.prepareArgs(fn, args)).send({from: from}).then(transaction => {
             resolve(transaction)
           }).catch(err => {
             reject(err)
           })
-      })
+        })
+      } else {
+        reject('Function does not exist')
+      }
     })
   }
 
-  public call (fn, args) {
+  public call (fn: string, args:any): Promise<any> {
 
     const me = this;
 
     return new Promise((resolve, reject) => {
-      me.contractFunctions[fn].fn.apply(me, me.prepareArgs(fn, args)).call().then(transaction => {
+      if (me.functionExists(fn)) {
+        me.contractFunctions[fn].fn.apply(me, me.prepareArgs(fn, args)).call().then(transaction => {
           resolve(this.prepareOutput(fn, transaction))
         }).catch(reject)
-      })
+      }  else {
+        reject('Function does not exist')
+      }
+    })
+
   }
 }
